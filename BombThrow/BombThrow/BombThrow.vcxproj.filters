@@ -1,0 +1,59 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="Physics">
+      <UniqueIdentifier>{5adb72b0-4d75-49c7-9c87-0fec8625dd2a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Graphics">
+      <UniqueIdentifier>{5cd6cd4c-916d-44a4-9c9f-12deb20e9eef}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Core">
+      <UniqueIdentifier>{aaabb1e8-7d40-4b88-9c9c-da4a28815725}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Utilities">
+      <UniqueIdentifier>{c5f42bb3-b9f1-454f-b015-d8ec5b0fb82e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Managers">
+      <UniqueIdentifier>{55df3cd2-73f0-42b4-ba90-b6134c14f3ab}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Graphics\Managers">
+      <UniqueIdentifier>{b06325d7-1508-493c-ab14-332809941e46}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Graphics\Renderers">
+      <UniqueIdentifier>{787676b2-d3bb-4fb6-9f33-1431f4edb069}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="main.cpp" />
+    <ClCompile Include="GraphicsManager.cpp">
+      <Filter>Graphics\Managers</Filter>
+    </ClCompile>
+    <ClCompile Include="IRendererManager.cpp">
+      <Filter>Graphics\Managers</Filter>
+    </ClCompile>
+    <ClCompile Include="DX11Manager.cpp">
+      <Filter>Graphics\Managers</Filter>
+    </ClCompile>
+    <ClCompile Include="Renderer.cpp">
+      <Filter>Graphics\Renderers</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="IRendererManager.h">
+      <Filter>Graphics\Managers</Filter>
+    </ClInclude>
+    <ClInclude Include="GraphicsManager.h">
+      <Filter>Graphics\Managers</Filter>
+    </ClInclude>
+    <ClInclude Include="DX11Manager.h">
+      <Filter>Graphics\Managers</Filter>
+    </ClInclude>
+    <ClInclude Include="Renderer.h">
+      <Filter>Graphics\Renderers</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>
