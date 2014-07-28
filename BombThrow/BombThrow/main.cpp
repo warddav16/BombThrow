@@ -37,6 +37,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PSTR pScmdline,
     wc.hInstance = hInstance;
     wc.hCursor = LoadCursor(NULL, IDC_ARROW);
     wc.hbrBackground = (HBRUSH)COLOR_WINDOW;
+	wc.lpszClassName = L"BomberThrow";
 
     RegisterClassEx(&wc);
 
@@ -44,17 +45,17 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PSTR pScmdline,
     AdjustWindowRect(&wr, WS_OVERLAPPEDWINDOW, FALSE);
 
     hWnd = CreateWindowEx(NULL,
-                          (LPCWSTR)"WindowClass",
-                          (LPCWSTR)"Our First Direct3D Program",
-                          WS_OVERLAPPEDWINDOW,
-                          300,
-                          300,
-                          wr.right - wr.left,
-                          wr.bottom - wr.top,
-                          NULL,
-                          NULL,
-                          hInstance,
-                          NULL);
+                          L"BomberThrow",    // name of the window class
+                          L"BomberThrow",   // title of the window
+                          WS_OVERLAPPEDWINDOW,    // window style
+                          300,    // x-position of the window
+                          300,    // y-position of the window
+                          500,    // width of the window
+                          400,    // height of the window
+                          NULL,    // we have no parent window, NULL
+                          NULL,    // we aren't using menus, NULL
+                          hInstance,    // application handle
+                          NULL);    // used with multiple windows, NULL
 
     ShowWindow(hWnd, iCmdshow);
 

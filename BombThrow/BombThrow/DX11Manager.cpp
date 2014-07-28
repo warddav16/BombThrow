@@ -29,7 +29,7 @@ void DX11Manager::StartWindow(HWND hwnd, int width, int height, bool fullscreen)
     scd.BufferUsage = DXGI_USAGE_RENDER_TARGET_OUTPUT;      // how swap chain is to be used
     scd.OutputWindow = hwnd;                                // the window to be used
     scd.SampleDesc.Count = 4;                               // how many multisamples
-	scd.Windowed = fullscreen;                                    // windowed/full-screen mode
+	scd.Windowed = !fullscreen;                                    // windowed/full-screen mode
 
     // create a device, device context and swap chain using the information in the scd struct
     D3D11CreateDeviceAndSwapChain(NULL,
