@@ -16,9 +16,9 @@ GraphicsManager::~GraphicsManager(void)
 {
 }
 
-void GraphicsManager::Startup()
+void GraphicsManager::Startup(HWND hwnd)
 {
-	m_renderManager->StartWindow(RESOLUTION_WIDTH, RESOLUTION_HEIGHT, IS_FULL_SCREEN);
+	m_renderManager->StartWindow(hwnd, RESOLUTION_WIDTH, RESOLUTION_HEIGHT, IS_FULL_SCREEN);
 }
 
 void GraphicsManager::Shutdown()

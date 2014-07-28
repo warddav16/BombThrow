@@ -5,7 +5,10 @@ Inherited classes of RendererManager will be used to actually hold and render sc
 */
 #include <vector>
 
+#include "Windows.h"
+
 #include "Renderer.h"
+
 
 class IRendererManager
 {
@@ -13,7 +16,7 @@ public:
 	
 	virtual ~IRendererManager(void);
 
-	virtual void StartWindow(int width, int height, bool fullscreen) = 0;
+	virtual void StartWindow(HWND hwnd, int width, int height, bool fullscreen) = 0;
 	virtual void CloseWindow() = 0;
 	virtual void RenderFrame() = 0;
 	virtual void SwapBuffers() = 0;

@@ -1,5 +1,7 @@
 #pragma once
 
+#include "Windows.h"
+
 class IRendererManager;
 
 /*
@@ -16,7 +18,7 @@ public:
 		static GraphicsManager instance;
 		return instance; //Fancy singleton pattern
 	}
-	void Startup();
+	void Startup(HWND hwnd);
 	void Shutdown();
 	void Update();
 	void SwapBuffers();
