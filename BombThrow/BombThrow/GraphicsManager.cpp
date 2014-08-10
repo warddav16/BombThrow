@@ -2,8 +2,8 @@
 
 #include "DX11Manager.h"
 
-const int RESOLUTION_WIDTH = 600;
-const int RESOLUTION_HEIGHT = 900;
+const int RESOLUTION_WIDTH = 640;
+const int RESOLUTION_HEIGHT = 480;
 const bool IS_FULL_SCREEN = false;
 
 GraphicsManager::GraphicsManager(void)
