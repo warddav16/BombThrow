@@ -18,6 +18,11 @@ GameObject::~GameObject(void)
 	}
 
 	m_components.clear();
+
+	if(m_renderer != NULL)
+	{
+		delete m_renderer;
+	}
 }
 
 void GameObject::Update(float delta)

@@ -1,6 +1,7 @@
 
 #include "Windows.h"
 #include "GraphicsManager.h"
+#include "GameObjectManager.h"
 
 LRESULT CALLBACK WindowProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
@@ -61,6 +62,8 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PSTR pScmdline,
 
 	//Storing values to reduce lookup times
 	GraphicsManager& graphicsManager = GraphicsManager::Instance();
+	GameObjectManager& gameObjectManager = GameObjectManager::Instance();
+	
 
 	//Startup Managers
 	graphicsManager.Startup(hWnd);
@@ -80,6 +83,8 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PSTR pScmdline,
 		else
 		{
 			//Update game objects
+			gameObjectManager.Update(0);
+
 			//Update physics
 			//Do collisions
 

@@ -17,6 +17,8 @@ public:
 
 	void Update(float delta);
 
+	std::list<GameObject*> GetGameObjects() { return m_gameObjects; }
+
 private:
 	GameObjectManager(void);
 	GameObjectManager(GameObjectManager const&) {}
