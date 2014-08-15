@@ -1,7 +1,8 @@
 #include "Renderer.h"
 
+#include "GameObject.h"
 
-Renderer::Renderer(void)
+Renderer::Renderer(GameObject* gO) : ComponentBase(gO)
 {
 }
 

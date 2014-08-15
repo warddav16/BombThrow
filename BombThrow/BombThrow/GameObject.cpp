@@ -11,6 +11,13 @@ GameObject::GameObject(void)
 
 GameObject::~GameObject(void)
 {
+	list<CustomBehavior*>::iterator iter;
+	for(; iter != m_components.end(); iter++)
+	{
+		delete (*iter);
+	}
+
+	m_components.clear();
 }
 
 void GameObject::Update(float delta)
