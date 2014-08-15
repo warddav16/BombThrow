@@ -74,14 +74,22 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="ComponentBase.cpp" />
+    <ClCompile Include="CustomBehavior.cpp" />
     <ClCompile Include="DX11Manager.cpp" />
+    <ClCompile Include="GameObject.cpp" />
+    <ClCompile Include="GameObjectManager.cpp" />
     <ClCompile Include="GraphicsManager.cpp" />
     <ClCompile Include="IRendererManager.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Renderer.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="ComponentBase.h" />
+    <ClInclude Include="CustomBehavior.h" />
     <ClInclude Include="DX11Manager.h" />
+    <ClInclude Include="GameObject.h" />
+    <ClInclude Include="GameObjectManager.h" />
     <ClInclude Include="GraphicsManager.h" />
     <ClInclude Include="IRendererManager.h" />
     <ClInclude Include="Renderer.h" />

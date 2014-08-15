@@ -26,6 +26,9 @@
     <Filter Include="Graphics\Renderers">
       <UniqueIdentifier>{787676b2-d3bb-4fb6-9f33-1431f4edb069}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Core\GameObjects">
+      <UniqueIdentifier>{0f509ff5-0cc7-439e-9009-aad96900f10a}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp" />
@@ -41,6 +44,16 @@
     <ClCompile Include="Renderer.cpp">
       <Filter>Graphics\Renderers</Filter>
     </ClCompile>
+    <ClCompile Include="GameObject.cpp">
+      <Filter>Core\GameObjects</Filter>
+    </ClCompile>
+    <ClCompile Include="ComponentBase.cpp">
+      <Filter>Core\GameObjects</Filter>
+    </ClCompile>
+    <ClCompile Include="CustomBehavior.cpp" />
+    <ClCompile Include="GameObjectManager.cpp">
+      <Filter>Core\GameObjects</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="IRendererManager.h">
@@ -54,6 +67,16 @@
     </ClInclude>
     <ClInclude Include="Renderer.h">
       <Filter>Graphics\Renderers</Filter>
+    </ClInclude>
+    <ClInclude Include="GameObject.h">
+      <Filter>Core\GameObjects</Filter>
+    </ClInclude>
+    <ClInclude Include="ComponentBase.h">
+      <Filter>Core\GameObjects</Filter>
+    </ClInclude>
+    <ClInclude Include="CustomBehavior.h" />
+    <ClInclude Include="GameObjectManager.h">
+      <Filter>Core\GameObjects</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
