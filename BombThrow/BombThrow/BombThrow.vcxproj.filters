@@ -50,8 +50,10 @@
     <ClCompile Include="ComponentBase.cpp">
       <Filter>Core\GameObjects</Filter>
     </ClCompile>
-    <ClCompile Include="CustomBehavior.cpp" />
     <ClCompile Include="GameObjectManager.cpp">
+      <Filter>Core\GameObjects</Filter>
+    </ClCompile>
+    <ClCompile Include="CustomBehavior.cpp">
       <Filter>Core\GameObjects</Filter>
     </ClCompile>
   </ItemGroup>
@@ -74,8 +76,10 @@
     <ClInclude Include="ComponentBase.h">
       <Filter>Core\GameObjects</Filter>
     </ClInclude>
-    <ClInclude Include="CustomBehavior.h" />
     <ClInclude Include="GameObjectManager.h">
+      <Filter>Core\GameObjects</Filter>
+    </ClInclude>
+    <ClInclude Include="CustomBehavior.h">
       <Filter>Core\GameObjects</Filter>
     </ClInclude>
   </ItemGroup>

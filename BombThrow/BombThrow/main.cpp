@@ -89,7 +89,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PSTR pScmdline,
 			//Do collisions
 
 			//Render
-			graphicsManager.Update();
+			graphicsManager.Update(gameObjectManager.GetGameObjects());
 
 			//Swap buffers
 			graphicsManager.SwapBuffers();

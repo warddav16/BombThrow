@@ -9,7 +9,7 @@ GameObjectManager::GameObjectManager(void)
 
 GameObjectManager::~GameObjectManager(void)
 {
-	list<GameObject*>::iterator iter;
+	list<GameObject*>::iterator iter = m_gameObjects.begin();
 	for(; iter != m_gameObjects.end(); iter++)
 	{
 		delete (*iter);
@@ -21,7 +21,7 @@ GameObjectManager::~GameObjectManager(void)
 
 void GameObjectManager::Update(float delta)
 {
-	list<GameObject*>::iterator iter;
+	list<GameObject*>::iterator iter = m_gameObjects.begin();
 	for(; iter != m_gameObjects.end(); iter++)
 	{
 		(*iter)->Update(delta);

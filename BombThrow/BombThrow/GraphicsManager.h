@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Windows.h"
+#include "GameObject.h"
 
 class IRendererManager;
 
@@ -20,7 +21,7 @@ public:
 	}
 	void Startup(HWND hwnd);
 	void Shutdown();
-	void Update();
+	void Update(std::list<GameObject*> gameObjects);
 	void SwapBuffers();
 
 private:

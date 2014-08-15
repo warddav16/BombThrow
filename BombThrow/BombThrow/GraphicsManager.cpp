@@ -2,6 +2,8 @@
 
 #include "DX11Manager.h"
 
+using std::list;
+
 const int RESOLUTION_WIDTH = 640;
 const int RESOLUTION_HEIGHT = 480;
 const bool IS_FULL_SCREEN = false;
@@ -27,9 +29,9 @@ void GraphicsManager::Shutdown()
 	m_renderManager->RemoveAllCurrentRenderers();
 }
 
-void GraphicsManager::Update()
+void GraphicsManager::Update(list<GameObject*> gameObjects)
 {
-	m_renderManager->RenderFrame();
+	m_renderManager->RenderFrame(gameObjects);
 }
 
 void GraphicsManager::SwapBuffers()

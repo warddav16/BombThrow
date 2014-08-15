@@ -5,6 +5,7 @@
 #include <d3dx10.h>
 
 #include "IRendererManager.h"
+#include "GameObject.h"
 
 class DX11Manager : public IRendererManager
 {
@@ -14,7 +15,7 @@ public:
 
 	virtual void StartWindow(HWND hwnd, int width, int height, bool fullscreen);
 	virtual void CloseWindow();
-	virtual void RenderFrame();
+	virtual void RenderFrame(std::list<GameObject*> gameObjects);
 	virtual void SwapBuffers();
 	bool InitDx3d(void);
 

@@ -10,6 +10,8 @@
 #pragma comment(lib, "d3dx11.lib")
 #pragma comment(lib, "d3dx10.lib")
 
+using std::list;
+
 DX11Manager::DX11Manager(void)
 {
 }
@@ -119,9 +121,16 @@ void DX11Manager::CloseWindow()
 
 }
 
-void DX11Manager::RenderFrame()
+void DX11Manager::RenderFrame(list<GameObject*> gameObjects)
 {
-
+	list<GameObject*>::iterator iter = gameObjects.begin();
+	for(; iter != gameObjects.end(); iter++)
+	{
+		if((*iter)->GetRenderer() != NULL)
+		{
+			(*iter)->GetRenderer()->Render();
+		}
+	}
 }
 
 void DX11Manager::SwapBuffers()	
