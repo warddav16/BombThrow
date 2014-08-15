@@ -10,7 +10,7 @@ public:
 	Renderer(GameObject* gO);
 	virtual ~Renderer(void);
 
-	void Render() {}
+	virtual void Render()=0;
 
 private:
 	Renderer(void);
