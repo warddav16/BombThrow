@@ -75,24 +75,34 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="ComponentBase.cpp" />
+    <ClCompile Include="CubeFactory.cpp" />
     <ClCompile Include="CustomBehavior.cpp" />
+    <ClCompile Include="daviDsTestFactory.cpp" />
     <ClCompile Include="DX11Manager.cpp" />
     <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="GameObjectManager.cpp" />
     <ClCompile Include="GraphicsManager.cpp" />
     <ClCompile Include="IRendererManager.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="Mesh.cpp" />
+    <ClCompile Include="MeshRenderer.cpp" />
     <ClCompile Include="Renderer.cpp" />
+    <ClCompile Include="Texture.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ComponentBase.h" />
+    <ClInclude Include="CubeFactory.h" />
     <ClInclude Include="CustomBehavior.h" />
+    <ClInclude Include="daviDsTestFactory.h" />
     <ClInclude Include="DX11Manager.h" />
     <ClInclude Include="GameObject.h" />
     <ClInclude Include="GameObjectManager.h" />
     <ClInclude Include="GraphicsManager.h" />
     <ClInclude Include="IRendererManager.h" />
+    <ClInclude Include="Mesh.h" />
+    <ClInclude Include="MeshRenderer.h" />
     <ClInclude Include="Renderer.h" />
+    <ClInclude Include="Texture.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

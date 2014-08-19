@@ -123,19 +123,43 @@ void DX11Manager::CloseWindow()
 
 void DX11Manager::RenderFrame(list<GameObject*> gameObjects)
 {
+	D3DXMATRIX worldMatrix, viewMatrix, projectionMatrix;
+
+	float color[4];
+	color[0]=0;
+	color[1]=0;
+	color[2]=0;
+	color[3]=0;
+
+	// Clear the back buffer.
+	m_deviceContext->ClearRenderTargetView(m_renderTargetView, color);
+    
+	// Clear the depth buffer.
+	m_deviceContext->ClearDepthStencilView(m_depthStencilView, D3D11_CLEAR_DEPTH, 1.0f, 0);
+
+	// Render our scene
 	list<GameObject*>::iterator iter = gameObjects.begin();
 	for(; iter != gameObjects.end(); iter++)
 	{
 		if((*iter)->GetRenderer() != NULL)
 		{
-			(*iter)->GetRenderer()->Render();
+			(*iter)->GetRenderer()->Render(m_deviceContext);
 		}
 	}
 }
 
 void DX11Manager::SwapBuffers()	
 {
-
+	if(m_vsync_enabled)
+	{
+		// Lock to screen refresh rate.
+		m_swapChain->Present(1, 0);
+	}
+	else
+	{
+		// Present as fast as possible.
+		m_swapChain->Present(0, 0);
+	}
 }
 
 bool DX11Manager::InitDx3d(void)

@@ -29,6 +29,24 @@
     <Filter Include="Core\GameObjects">
       <UniqueIdentifier>{0f509ff5-0cc7-439e-9009-aad96900f10a}</UniqueIdentifier>
     </Filter>
+    <Filter Include="THEGAME">
+      <UniqueIdentifier>{8cf8a739-5813-43bb-b803-a729802e07c8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="THEGAME\BomberThrower">
+      <UniqueIdentifier>{93e39bd0-8422-4919-a0f6-1fa4249e4830}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="THEGAME\Testing">
+      <UniqueIdentifier>{9722ca1d-bef6-4de4-9a99-d6512bcceeda}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="THEGAME\Testing\daviD">
+      <UniqueIdentifier>{9b560a50-9839-45d8-9623-0dcae9077274}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="THEGAME\Testing\General">
+      <UniqueIdentifier>{bcdd1cb2-a995-4ec2-a922-c01e3adcf098}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Graphics\Core">
+      <UniqueIdentifier>{df6e64f4-22fd-49a6-a200-de5c3edde845}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp" />
@@ -56,6 +74,21 @@
     <ClCompile Include="CustomBehavior.cpp">
       <Filter>Core\GameObjects</Filter>
     </ClCompile>
+    <ClCompile Include="daviDsTestFactory.cpp">
+      <Filter>THEGAME\Testing\daviD</Filter>
+    </ClCompile>
+    <ClCompile Include="CubeFactory.cpp">
+      <Filter>THEGAME\Testing\General</Filter>
+    </ClCompile>
+    <ClCompile Include="Mesh.cpp">
+      <Filter>Graphics\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="MeshRenderer.cpp">
+      <Filter>Graphics\Renderers</Filter>
+    </ClCompile>
+    <ClCompile Include="Texture.cpp">
+      <Filter>Graphics\Core</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="IRendererManager.h">
@@ -81,6 +114,21 @@
     </ClInclude>
     <ClInclude Include="CustomBehavior.h">
       <Filter>Core\GameObjects</Filter>
+    </ClInclude>
+    <ClInclude Include="daviDsTestFactory.h">
+      <Filter>THEGAME\Testing\daviD</Filter>
+    </ClInclude>
+    <ClInclude Include="CubeFactory.h">
+      <Filter>THEGAME\Testing\General</Filter>
+    </ClInclude>
+    <ClInclude Include="Mesh.h">
+      <Filter>Graphics\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="MeshRenderer.h">
+      <Filter>Graphics\Renderers</Filter>
+    </ClInclude>
+    <ClInclude Include="Texture.h">
+      <Filter>Graphics\Core</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
