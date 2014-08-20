@@ -10,6 +10,7 @@ MeshRenderer::MeshRenderer(GameObject* gO) : Renderer(gO)
 	m_vertexBuffer = 0;
 	m_indexBuffer = 0;
 	m_mesh = 0;
+	m_shader = 0;
 }
 
 
@@ -31,6 +32,12 @@ MeshRenderer::~MeshRenderer(void)
 	{
 		m_vertexBuffer->Release();
 		m_vertexBuffer = 0;
+	}
+
+	if(m_shader)
+	{
+		delete m_shader;
+		m_shader = 0;
 	}
 
 	for(vector<Texture*>::iterator iter = m_textures.begin(); iter != m_textures.end(); iter++)
@@ -109,7 +116,7 @@ void MeshRenderer::Init(ID3D11Device* device)
 	indices = 0;
 }
 
-void MeshRenderer::Render(ID3D11DeviceContext* deviceContext)
+void MeshRenderer::Render(ID3D11DeviceContext* deviceContext, D3DXMATRIX world, D3DXMATRIX view, D3DXMATRIX projection)
 {
 	unsigned int stride;
 	unsigned int offset;
@@ -127,4 +134,22 @@ void MeshRenderer::Render(ID3D11DeviceContext* deviceContext)
 
 	// Set the type of primitive that should be rendered from this vertex buffer, in this case triangles.
 	deviceContext->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
+
+	m_shader->SetShaderParameters(deviceContext, world, view, projection, m_textures[0]->GetTexture());
+
+	// Set the vertex input layout.
+	deviceContext->IASetInputLayout(m_shader->GetInputLayout());
+
+	// Set the vertex and pixel shaders that will be used to render this triangle.
+	deviceContext->VSSetShader(m_shader->GetVertexShader(), NULL, 0);
+	deviceContext->PSSetShader(m_shader->GetPixelShader(), NULL, 0);
+
+	// Set the sampler state in the pixel shader.
+	ID3D11SamplerState* sampleState = m_shader->GetSampleState();
+	deviceContext->PSSetSamplers(0, 1, &sampleState);
+
+	// Render the triangle.
+	deviceContext->DrawIndexed(m_mesh->GetIndexCount(), 0, 0);
+
+	return;
 }

@@ -11,7 +11,7 @@ public:
 	Texture(const char* fileName, ID3D11Device* device);
 	virtual ~Texture(void);
 
-	ID3D11ShaderResourceView* GetTexture() { m_texture; }
+	ID3D11ShaderResourceView* GetTexture() { return m_texture; }
 	void LoadFile(const char* fileName, ID3D11Device* device);
 
 private:

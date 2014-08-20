@@ -3,6 +3,7 @@
 #include "Renderer.h"
 #include "Texture.h"
 #include "Mesh.h"
+#include "Shader.h"
 #include <vector>
 
 class GameObject;
@@ -13,7 +14,7 @@ public:
 	MeshRenderer(GameObject* gO);
 	~MeshRenderer(void);
 
-	virtual void Render(ID3D11DeviceContext*);
+	virtual void Render(ID3D11DeviceContext* deviceContext, D3DXMATRIX world, D3DXMATRIX view, D3DXMATRIX projection);
 
 public:
 	Mesh* GetMesh() { return m_mesh; }
@@ -33,5 +34,6 @@ private:
 	Mesh* m_mesh;
 	ID3D11Buffer* m_vertexBuffer;
 	ID3D11Buffer* m_indexBuffer;
+	Shader* m_shader;
 };
 

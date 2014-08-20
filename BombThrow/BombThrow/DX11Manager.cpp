@@ -123,7 +123,7 @@ void DX11Manager::CloseWindow()
 
 void DX11Manager::RenderFrame(list<GameObject*> gameObjects)
 {
-	D3DXMATRIX worldMatrix, viewMatrix, projectionMatrix;
+	D3DXMATRIX viewMatrix; //Needs to come from camera
 
 	float color[4];
 	color[0]=0;
@@ -137,13 +137,15 @@ void DX11Manager::RenderFrame(list<GameObject*> gameObjects)
 	// Clear the depth buffer.
 	m_deviceContext->ClearDepthStencilView(m_depthStencilView, D3D11_CLEAR_DEPTH, 1.0f, 0);
 
+
+
 	// Render our scene
 	list<GameObject*>::iterator iter = gameObjects.begin();
 	for(; iter != gameObjects.end(); iter++)
 	{
 		if((*iter)->GetRenderer() != NULL)
 		{
-			(*iter)->GetRenderer()->Render(m_deviceContext);
+			(*iter)->GetRenderer()->Render(m_deviceContext, m_worldMatrix, viewMatrix, m_projectionMatrix);
 		}
 	}
 }

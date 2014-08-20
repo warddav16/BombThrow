@@ -89,6 +89,9 @@
     <ClCompile Include="Texture.cpp">
       <Filter>Graphics\Core</Filter>
     </ClCompile>
+    <ClCompile Include="Shader.cpp">
+      <Filter>Graphics\Core</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="IRendererManager.h">
@@ -128,6 +131,9 @@
       <Filter>Graphics\Renderers</Filter>
     </ClInclude>
     <ClInclude Include="Texture.h">
+      <Filter>Graphics\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Shader.h">
       <Filter>Graphics\Core</Filter>
     </ClInclude>
   </ItemGroup>
