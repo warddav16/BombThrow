@@ -480,3 +480,12 @@ bool DX11Manager::InitDx3d(void)
 
 	return true;
 }
+
+Texture* DX11Manager::CreateTexture(const char* fileName)
+{
+	ID3D11ShaderResourceView* textureResource = 0;
+	Texture* texture = new Texture();
+	D3DX11CreateShaderResourceViewFromFile(m_device, (LPCWSTR)fileName, NULL, NULL, &textureResource, NULL);
+	texture->SetTexture(textureResource);
+	return texture;
+}

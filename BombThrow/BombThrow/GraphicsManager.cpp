@@ -38,3 +38,8 @@ void GraphicsManager::SwapBuffers()
 {
 	m_renderManager->SwapBuffers();
 }
+
+Texture* GraphicsManager::CreateTexture(const char* fileName)
+{
+	return m_renderManager->CreateTexture(fileName);
+}

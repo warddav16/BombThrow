@@ -12,6 +12,7 @@ public:
 	virtual ~Texture(void);
 
 	ID3D11ShaderResourceView* GetTexture() { return m_texture; }
+	void SetTexture(ID3D11ShaderResourceView* tex) { m_texture = tex; }
 	void LoadFile(const char* fileName, ID3D11Device* device);
 
 private:

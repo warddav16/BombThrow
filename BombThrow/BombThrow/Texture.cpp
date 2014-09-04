@@ -24,6 +24,6 @@ Texture::~Texture(void)
 
 void Texture::LoadFile(const char* fileName, ID3D11Device* device)
 {
-	//TODO: Find a better way to share the device
+	
 	D3DX11CreateShaderResourceViewFromFile(device, (LPCWSTR)fileName, NULL, NULL, &m_texture, NULL);
 }

@@ -3,6 +3,8 @@
 #include "GraphicsManager.h"
 #include "GameObjectManager.h"
 
+#include "daviDsTestFactory.h"
+
 LRESULT CALLBACK WindowProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
     // sort through and find what code to run for the message given
@@ -67,6 +69,11 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PSTR pScmdline,
 
 	//Startup Managers
 	graphicsManager.Startup(hWnd);
+
+
+	//Factory setup
+	daviDsTestFactory factory;
+	factory.Setup();
 	
 	//DA GAME LOOP AHH
 	while(shouldContinue) 

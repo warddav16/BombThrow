@@ -2,6 +2,9 @@
 
 #include "Windows.h"
 #include "GameObject.h"
+#include "Texture.h"
+#include <d3d11.h>
+#include <d3dx11tex.h>
 
 class IRendererManager;
 
@@ -23,6 +26,7 @@ public:
 	void Shutdown();
 	void Update(std::list<GameObject*> gameObjects);
 	void SwapBuffers();
+	Texture* CreateTexture(const char* fileName);
 
 private:
 	GraphicsManager(void);

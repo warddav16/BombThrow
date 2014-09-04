@@ -17,6 +17,7 @@ public:
 	virtual void CloseWindow();
 	virtual void RenderFrame(std::list<GameObject*> gameObjects);
 	virtual void SwapBuffers();
+	virtual Texture* CreateTexture(const char* fileName);
 	bool InitDx3d(void);
 
 private:
