@@ -485,7 +485,179 @@ Texture* DX11Manager::CreateTexture(const char* fileName)
 {
 	ID3D11ShaderResourceView* textureResource = 0;
 	Texture* texture = new Texture();
-	D3DX11CreateShaderResourceViewFromFile(m_device, (LPCWSTR)fileName, NULL, NULL, &textureResource, NULL);
+	wchar_t wtext[150];
+	mbstowcs(wtext, fileName, strlen(fileName)+1);//Plus null
+	LPWSTR ptr = wtext;
+	D3DX11CreateShaderResourceViewFromFile(m_device, ptr, NULL, NULL, &textureResource, NULL);
 	texture->SetTexture(textureResource);
 	return texture;
+}
+
+void DX11Manager::LoadShader(const WCHAR* vsFileName, const WCHAR* psFileName, Shader* shader)
+{
+	HRESULT result;
+	ID3D10Blob* errorMessage;
+	ID3D10Blob* vertexShaderBuffer;
+	ID3D10Blob* pixelShaderBuffer;
+
+	// Initialize the pointers this function will use to null.
+	errorMessage = 0;
+	vertexShaderBuffer = 0;
+	pixelShaderBuffer = 0;
+
+	// Compile the vertex shader code.
+	result = D3DX11CompileFromFile(vsFileName, NULL, NULL, shader->GetVertexFunctionName(), "vs_5_0", D3D10_SHADER_ENABLE_STRICTNESS, 0, NULL, 
+				       &vertexShaderBuffer, &errorMessage, NULL);
+	if(FAILED(result))
+	{
+		// If the shader failed to compile it should have writen something to the error message.
+		if(errorMessage)
+		{
+			OutputShaderErrorMessage((char*)errorMessage->GetBufferPointer(), vsFileName);
+		}
+		// If there was nothing in the error message then it simply could not find the shader file itself.
+		else
+		{
+			MessageBox(m_hwnd, vsFileName, L"Missing Shader File", MB_OK);
+		}
+
+		return ;
+	}
+
+	// Compile the pixel shader code.
+	result = D3DX11CompileFromFile(psFileName, NULL, NULL, shader->GetPixelFunctionName(), "ps_5_0", D3D10_SHADER_ENABLE_STRICTNESS, 0, NULL, 
+				       &pixelShaderBuffer, &errorMessage, NULL);
+	if(FAILED(result))
+	{
+		// If the shader failed to compile it should have writen something to the error message.
+		if(errorMessage)
+		{
+			OutputShaderErrorMessage((char*)errorMessage->GetBufferPointer(), psFileName);
+		}
+		// If there was nothing in the error message then it simply could not find the file itself.
+		else
+		{
+			MessageBox(m_hwnd, psFileName, L"Missing Shader File", MB_OK);
+		}
+
+		return ;
+	}
+
+	// Create the vertex shader from the buffer.
+	ID3D11VertexShader* vertexShader = 0;
+	ID3D11PixelShader* pixelShader = 0;
+	result = m_device->CreateVertexShader(vertexShaderBuffer->GetBufferPointer(), vertexShaderBuffer->GetBufferSize(), NULL, &vertexShader);
+	if(FAILED(result))
+	{
+		return ;
+	}
+
+	shader->SetVertexShader(vertexShader);
+
+	// Create the pixel shader from the buffer.
+	result = m_device->CreatePixelShader(pixelShaderBuffer->GetBufferPointer(), pixelShaderBuffer->GetBufferSize(), NULL, &pixelShader);
+	if(FAILED(result))
+	{
+		return ;
+	}
+
+	shader->SetPixelShader(pixelShader);
+
+	shader->LoadShaderParameters(m_device, vertexShaderBuffer, pixelShaderBuffer);
+
+	if(pixelShaderBuffer)
+	{
+		pixelShaderBuffer->Release();
+		pixelShaderBuffer = 0;
+	}
+	if(vertexShaderBuffer)
+	{
+		vertexShaderBuffer->Release();
+		vertexShaderBuffer = 0;
+	}
+	if(errorMessage)
+	{
+		errorMessage->Release();
+		errorMessage = 0;
+	}
+}
+
+Mesh* DX11Manager::LoadMesh(const char* fileName)
+{
+	Mesh* mesh = new Mesh("Models/davidcube.obj");
+
+	if(mesh == 0)
+	{
+		return NULL;
+	}
+
+	D3D11_BUFFER_DESC vertexBufferDesc, indexBufferDesc;
+	D3D11_SUBRESOURCE_DATA vertexData, indexData;
+
+
+	unsigned long* indices = new unsigned long[mesh->GetIndexCount()];
+	if(!indices)
+	{
+		return NULL;
+	}
+
+	for(int i=0; i<mesh->GetIndexCount(); ++i)
+	{
+		indices[i] = i;
+	}
+
+
+	// Set up the description of the static vertex buffer.
+	vertexBufferDesc.Usage = D3D11_USAGE_DEFAULT;
+	vertexBufferDesc.ByteWidth = sizeof(Mesh::Vertex) * mesh->GetVertexCount();
+	vertexBufferDesc.BindFlags = D3D11_BIND_VERTEX_BUFFER;
+	vertexBufferDesc.CPUAccessFlags = 0;
+	vertexBufferDesc.MiscFlags = 0;
+	vertexBufferDesc.StructureByteStride = 0;
+
+	// Give the subresource structure a pointer to the vertex data.
+	vertexData.pSysMem = &(mesh->GetVertices()[0]);
+	vertexData.SysMemPitch = 0;
+	vertexData.SysMemSlicePitch = 0;
+
+	// Now create the vertex buffer.
+	ID3D11Buffer* vertexBuffer = 0;
+	HRESULT result = m_device->CreateBuffer(&vertexBufferDesc, &vertexData, &vertexBuffer);
+	if(FAILED(result))
+	{
+		return NULL;
+	}
+	
+	mesh->SetVertexBuffer(vertexBuffer);
+
+
+	// Set up the description of the static index buffer.
+	indexBufferDesc.Usage = D3D11_USAGE_DEFAULT;
+	indexBufferDesc.ByteWidth = sizeof(unsigned long) * mesh->GetIndexCount();
+	indexBufferDesc.BindFlags = D3D11_BIND_INDEX_BUFFER;
+	indexBufferDesc.CPUAccessFlags = 0;
+	indexBufferDesc.MiscFlags = 0;
+	indexBufferDesc.StructureByteStride = 0;
+
+	// Give the subresource structure a pointer to the index data.
+	indexData.pSysMem = indices;
+	indexData.SysMemPitch = 0;
+	indexData.SysMemSlicePitch = 0;
+
+	// Create the index buffer.
+	ID3D11Buffer* indexBuffer;
+	result = m_device->CreateBuffer(&indexBufferDesc, &indexData, &indexBuffer);
+	if(FAILED(result))
+	{
+		return NULL;
+	}
+
+	mesh->SetIndexBuffer(indexBuffer);
+
+	// Release the arrays now that the vertex and index buffers have been created and loaded.
+
+	delete [] indices;
+	indices = 0;
+
+	return mesh;
 }

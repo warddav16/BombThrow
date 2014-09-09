@@ -2,7 +2,7 @@
 
 #include "Mesh.h"
 #include "Texture.h"
-#include "Shader.h"
+#include "TextureShader.h"
 #include "MeshRenderer.h"
 #include "GraphicsManager.h"
 
@@ -23,11 +23,15 @@ GameObject* CubeFactory::Setup()
 	GameObject* cube =  new GameObject();
 	MeshRenderer* meshRenderer = new MeshRenderer(cube);
 
-	//Mesh* mesh = new Mesh("Models/Cube.obj");
-	//meshRenderer->SetMesh(mesh);
+	Mesh* mesh = GraphicsManager::Instance().LoadMesh("Models/davidcube.obj");
+	meshRenderer->SetMesh(mesh);
 
-	//Texture* texture  = GraphicsManager::Instance().CreateTexture("someFileName");
-	//meshRenderer->AddTexture(texture);
+	Texture* texture  = GraphicsManager::Instance().CreateTexture("Textures/testTexture.dds");
+	meshRenderer->AddTexture(texture);
+
+	Shader* shader = new TextureShader();
+	GraphicsManager::Instance().LoadShader(L"TextureShaderUnlit.vs", L"TextureShaderUnlit.ps", shader);
+	meshRenderer->SetShader(shader);
 
 	return cube;
 }

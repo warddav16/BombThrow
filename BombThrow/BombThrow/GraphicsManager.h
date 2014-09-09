@@ -3,6 +3,9 @@
 #include "Windows.h"
 #include "GameObject.h"
 #include "Texture.h"
+#include "Shader.h"
+#include "Mesh.h"
+
 #include <d3d11.h>
 #include <d3dx11tex.h>
 
@@ -26,7 +29,9 @@ public:
 	void Shutdown();
 	void Update(std::list<GameObject*> gameObjects);
 	void SwapBuffers();
+	Mesh* LoadMesh(const char* fileName);
 	Texture* CreateTexture(const char* fileName);
+	void LoadShader(const WCHAR* vsFileName, const WCHAR* psFileName, Shader* shader);
 
 private:
 	GraphicsManager(void);

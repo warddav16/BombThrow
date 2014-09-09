@@ -4,6 +4,7 @@
 
 Renderer::Renderer(GameObject* gO) : ComponentBase(gO)
 {
+	gO->SetRenderer(this);
 }
 
 

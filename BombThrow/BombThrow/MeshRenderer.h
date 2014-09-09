@@ -3,10 +3,10 @@
 #include "Renderer.h"
 #include "Texture.h"
 #include "Mesh.h"
-#include "Shader.h"
 #include <vector>
 
 class GameObject;
+class Shader;
 
 class MeshRenderer : public Renderer
 {
@@ -21,6 +21,8 @@ public:
 	void SetMesh(Mesh* mesh) { m_mesh = mesh; }
 	void AddTexture(Texture* texture) { m_textures.push_back(texture); }
 	Texture* GetTexture(int n) { return m_textures[n]; }
+	void SetShader(Shader* shader) { m_shader = shader; }
+	Shader* GetShader() { return m_shader; }
 
 	void Init(ID3D11Device* );
 
@@ -32,8 +34,6 @@ private:
 private:
 	std::vector<Texture*> m_textures;
 	Mesh* m_mesh;
-	ID3D11Buffer* m_vertexBuffer;
-	ID3D11Buffer* m_indexBuffer;
 	Shader* m_shader;
 };
 

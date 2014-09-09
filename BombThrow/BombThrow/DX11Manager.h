@@ -17,7 +17,9 @@ public:
 	virtual void CloseWindow();
 	virtual void RenderFrame(std::list<GameObject*> gameObjects);
 	virtual void SwapBuffers();
+	virtual Mesh* LoadMesh(const char* fileName);
 	virtual Texture* CreateTexture(const char* fileName);
+	virtual void LoadShader(const WCHAR* vsFileName, const WCHAR* psFileName, Shader* shader);
 	bool InitDx3d(void);
 
 private:
@@ -35,11 +37,7 @@ private:
 	D3DXMATRIX m_projectionMatrix;
 	D3DXMATRIX m_worldMatrix;
 	D3DXMATRIX m_orthoMatrix;
-	
-	int m_width;
-	int m_height;
-	bool m_fullscreen;
-	HWND m_hwnd;
+
 	float m_screenNear;
 	float m_screenDepth;
 };

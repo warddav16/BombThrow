@@ -18,6 +18,7 @@ public:
 	void Update(float delta);
 
 	std::list<GameObject*> GetGameObjects() { return m_gameObjects; }
+	void AddGameObject(GameObject* gO) { m_gameObjects.push_back(gO); }
 
 private:
 	GameObjectManager(void);

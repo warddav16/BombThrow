@@ -1,6 +1,7 @@
 #include "GameObject.h"
 
 #include "CustomBehavior.h"
+#include "Renderer.h"
 
 using std::list;
 
@@ -11,7 +12,7 @@ GameObject::GameObject(void)
 
 GameObject::~GameObject(void)
 {
-	list<CustomBehavior*>::iterator iter;
+	list<CustomBehavior*>::iterator iter = m_components.begin();
 	for(; iter != m_components.end(); iter++)
 	{
 		delete (*iter);

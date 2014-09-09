@@ -18,5 +18,5 @@ void daviDsTestFactory::Setup()
 	CubeFactory cubeFactory;
 	GameObject* cube = cubeFactory.Setup();
 
-	GameObjectManager::Instance().GetGameObjects().push_back(cube);
+	GameObjectManager::Instance().AddGameObject(cube);
 }

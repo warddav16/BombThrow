@@ -47,6 +47,12 @@
     <Filter Include="Graphics\Core">
       <UniqueIdentifier>{df6e64f4-22fd-49a6-a200-de5c3edde845}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Shaders">
+      <UniqueIdentifier>{18137c1c-7479-4b4a-99b6-4a00b9f95382}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Graphics\Shaders">
+      <UniqueIdentifier>{cad767ff-072e-4c5c-8018-57833ab979bc}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp" />
@@ -92,6 +98,7 @@
     <ClCompile Include="Shader.cpp">
       <Filter>Graphics\Core</Filter>
     </ClCompile>
+    <ClCompile Include="TextureShader.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="IRendererManager.h">
@@ -136,5 +143,14 @@
     <ClInclude Include="Shader.h">
       <Filter>Graphics\Core</Filter>
     </ClInclude>
+    <ClInclude Include="TextureShader.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="TextureShaderUnlit.ps">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="TextureShaderUnlit.vs">
+      <Filter>Shaders</Filter>
+    </None>
   </ItemGroup>
 </Project>

@@ -39,7 +39,17 @@ void GraphicsManager::SwapBuffers()
 	m_renderManager->SwapBuffers();
 }
 
+Mesh* GraphicsManager::LoadMesh(const char* fileName)
+{
+	return m_renderManager->LoadMesh(fileName);
+}
+
 Texture* GraphicsManager::CreateTexture(const char* fileName)
 {
 	return m_renderManager->CreateTexture(fileName);
+}
+
+void GraphicsManager::LoadShader(const WCHAR* vsFileName, const WCHAR* psFileName, Shader* shader)
+{
+	m_renderManager->LoadShader(vsFileName, psFileName, shader);
 }

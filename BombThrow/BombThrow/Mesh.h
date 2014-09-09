@@ -16,6 +16,13 @@ public:
 		D3DXVECTOR3 normal;
 	};
 
+	struct FaceIndexStructure
+	{
+		int vertIndex[3];
+		int textureIndex[3];
+		int normalIndex[3];
+	};
+
 	Mesh(void);
 	Mesh(const char* fileName);
 	~Mesh(void);
@@ -26,10 +33,18 @@ public:
 	const int GetVertexCount() { return m_vertexCount; }
 	const int GetIndexCount() { return m_indexCount; }
 
+	ID3D11Buffer* GetVertexBuffer() { return m_vertexBuffer; }
+	void SetVertexBuffer(ID3D11Buffer* vertexBuffer) { m_vertexBuffer = vertexBuffer; }
+	ID3D11Buffer* GetIndexBuffer() { return m_indexBuffer; }
+	void SetIndexBuffer(ID3D11Buffer* indexBuffer) { m_indexBuffer = indexBuffer; }
+
 private:
 	std::vector<Vertex*> m_vertices;
 
 	int m_vertexCount;
 	int m_indexCount;
+
+	ID3D11Buffer* m_vertexBuffer;
+	ID3D11Buffer* m_indexBuffer;
 };
 

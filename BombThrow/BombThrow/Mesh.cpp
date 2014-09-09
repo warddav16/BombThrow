@@ -2,8 +2,8 @@
 
 #include <fstream>
 
-using std::ifstream;
 using std::vector;
+using std::wifstream;
 
 Mesh::Mesh(void)
 {
@@ -14,6 +14,18 @@ Mesh::Mesh(void)
 
 Mesh::~Mesh(void)
 {
+	if(m_indexBuffer)
+	{
+		m_indexBuffer->Release();
+		m_indexBuffer = 0;
+	}
+
+	if(m_vertexBuffer)
+	{
+		m_vertexBuffer->Release();
+		m_vertexBuffer = 0;
+	}
+
 	for(vector<Mesh::Vertex*>::iterator iter = m_vertices.begin(); iter != m_vertices.end(); iter++)
 	{
 		delete (*iter);
@@ -24,60 +36,112 @@ Mesh::~Mesh(void)
 
 Mesh::Mesh(const char* fileName)
 {
+	m_indexCount = 0;
+	m_vertexCount = 0;
 	this->LoadObj(fileName);
 }
 
 void Mesh::LoadObj(const char* fileName) 
 {
-	ifstream fin;
-	char input;
-	int i;
+	wifstream fileIn (fileName);
+	unsigned short checkChar;
 
+	vector<D3DXVECTOR3> vertexPos;
+	vector<D3DXVECTOR2> uvThings;
+	vector<D3DXVECTOR3> normals;
+	vector<FaceIndexStructure> faces;
 
-	// Open the model file.
-	fin.open(fileName);
-	
-	// If it could not open the file then exit.
-	if(fin.fail())
-	{
-		return;
+	while(fileIn)
+	{			
+		checkChar = fileIn.get();	//Get next char
+
+		switch (checkChar)
+		{		
+		case '#':
+			checkChar = fileIn.get();
+			while(checkChar != '\n')
+				checkChar = fileIn.get();
+			break;
+		case 'v':	//Get Vertex Descriptions
+			checkChar = fileIn.get();
+			if(checkChar == ' ')	//v - vert position
+			{
+				float vz, vy, vx;
+				fileIn >> vx >> vy >> vz;	//Store the next three types
+
+				D3DXVECTOR3 vertPos( vx, vy, vz * -1.0f);
+				vertexPos.push_back(vertPos); //Assuming right-hand coordinate system obj
+					
+			}
+			if(checkChar == 't')	//vt - vert tex coords
+			{			
+				float vtcu, vtcv;
+				fileIn >> vtcu >> vtcv;		//Store next two types
+
+				D3DXVECTOR2 uv(vtcu, 1.0f-vtcv);
+
+				uvThings.push_back(uv);	//Assuming right-hand coordinate system obj
+			}
+			if(checkChar == 'n')	//vn - vert normal
+			{
+				float vnx, vny, vnz;
+				fileIn >> vnx >> vny >> vnz;	//Store next three types
+
+				D3DXVECTOR3 theNormal( vnx, vny, vnz * -1.0f );
+
+				normals.push_back(theNormal);	//Invert the Z axis
+			}
+			break;
+		case 'f':
+			checkChar = fileIn.get();
+			if(checkChar == ' ')	//v - vert position
+			{
+				FaceIndexStructure face;
+				fileIn >> face.vertIndex[0];
+				checkChar = fileIn.get(); // '/'
+				fileIn >> face.textureIndex[0];
+				checkChar = fileIn.get(); // '/'
+				fileIn >> face.normalIndex[0];
+
+				checkChar = fileIn.get(); // ' '
+
+				fileIn >> face.vertIndex[1];
+				checkChar = fileIn.get(); // '/'
+				fileIn >> face.textureIndex[1];
+				checkChar = fileIn.get(); // '/'
+				fileIn >> face.normalIndex[1];
+
+				checkChar = fileIn.get(); // ' '
+
+				fileIn >> face.vertIndex[2];
+				checkChar = fileIn.get(); // '/'
+				fileIn >> face.textureIndex[2];
+				checkChar = fileIn.get(); // '/'
+				fileIn >> face.normalIndex[2];
+
+				faces.push_back(face);
+			}
+			break;
+		default:				
+			break;
+		}
 	}
 
-	// Read up to the value of vertex count.
-	fin.get(input);
-	while(input != ':')
+	vector<FaceIndexStructure>::iterator iter = faces.begin();
+	for(; iter != faces.end(); iter++)
 	{
-		fin.get(input);
+		for(int i=0; i<3; ++i)
+		{
+			Vertex* vert = new Vertex();
+			vert->position = vertexPos[iter->vertIndex[i]-1];
+			vert->texture = uvThings[iter->textureIndex[i]-1];
+			vert->normal = normals[iter->normalIndex[i]-1];
+			m_vertices.push_back(vert);
+			m_vertexCount++;
+			m_indexCount++;
+		}
 	}
 
-	// Read in the vertex count.
-	fin >> m_vertexCount;
-
-	// Set the number of indices to be the same as the vertex count.
-	m_indexCount = m_vertexCount;
-
-	m_vertices.reserve(m_indexCount);
-
-	// Read up to the beginning of the data.
-	fin.get(input);
-	while(input != ':')
-	{
-		fin.get(input);
-	}
-	fin.get(input);
-	fin.get(input);
-
-	// Read in the vertex data.
-	for(i=0; i<m_vertexCount; i++)
-	{
-		m_vertices[i] = new Mesh::Vertex();
-		fin >> m_vertices[i]->position.x >> m_vertices[i]->position.y >> m_vertices[i]->position.z;
-		fin >> m_vertices[i]->texture.x >> m_vertices[i]->texture.y;
-		fin >> m_vertices[i]->normal.x >> m_vertices[i]->normal.y >> m_vertices[i]->normal.z;
-	}
-
-	// Close the model file.
-	fin.close();
 
 	return;
 }
