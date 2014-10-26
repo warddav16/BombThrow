@@ -119,11 +119,26 @@ void DX11Manager::CloseWindow()
 		m_swapChain = 0;
 	}
 
+	if(m_deferredBuffers)
+	{
+		delete m_deferredBuffers;
+	}
+
+	if(m_orthoWindow)
+	{
+		delete m_orthoWindow;
+	}
+
+	if(m_ambientLightShader)
+	{
+		delete m_ambientLightShader;
+	}
 }
 
 void DX11Manager::RenderFrame(list<GameObject*> gameObjects)
 {
-	D3DXMATRIX viewMatrix; //Needs to come from camera
+	// Render the scene into the deferred textures
+	this->RenderToTextures(gameObjects);
 
 	float color[4];
 	color[0]=0;
@@ -137,17 +152,18 @@ void DX11Manager::RenderFrame(list<GameObject*> gameObjects)
 	// Clear the depth buffer.
 	m_deviceContext->ClearDepthStencilView(m_depthStencilView, D3D11_CLEAR_DEPTH, 1.0f, 0);
 
+	// Turn off the ZBuffer to do 2D rendering lighting pass
+	this->SetZBuffer(false);
 
+	// Put the window into the pipeline to be rendered. 
+	// For the rest of the frame, all lighting shader operations will be performed on this mesh (which is the size of the window)
+	m_orthoWindow->Render(m_deviceContext);
 
-	// Render our scene
-	list<GameObject*>::iterator iter = gameObjects.begin();
-	for(; iter != gameObjects.end(); iter++)
-	{
-		if((*iter)->GetRenderer() != NULL)
-		{
-			(*iter)->GetRenderer()->Render(m_deviceContext, m_worldMatrix, viewMatrix, m_projectionMatrix);
-		}
-	}
+	// Do the lighting pass with the on the window model
+	this->LightingPass();
+
+	// Set the Z Buffer back to true for the next pass
+	this->SetZBuffer(true);
 }
 
 void DX11Manager::SwapBuffers()	
@@ -163,6 +179,154 @@ void DX11Manager::SwapBuffers()
 		m_swapChain->Present(0, 0);
 	}
 }
+
+void DX11Manager::RenderToTextures(list<GameObject*> gameObjects)
+{
+	D3DXMATRIX world = m_worldMatrix;
+	D3DXMATRIX proj = m_projectionMatrix;
+
+	D3DXMATRIX viewMatrix; //Needs to come from camera
+	///TEST///---------------------------------------------------------------------------
+	D3DXVECTOR3 up, position, lookAt;
+	float yaw, pitch, roll;
+	D3DXMATRIX rotationMatrix;
+
+
+	// Setup the vector that points upwards.
+	up.x = 0.0f;
+	up.y = 1.0f;
+	up.z = 0.0f;
+
+	// Setup the position of the camera in the world.
+	position.x = 0;
+	position.y = 0;
+	position.z = -10.0f;
+
+	// Setup where the camera is looking by default.
+	lookAt.x = 0.0f;
+	lookAt.y = 0.0f;
+	lookAt.z = 1.0f;
+
+	// Set the yaw (Y axis), pitch (X axis), and roll (Z axis) rotations in radians.
+	pitch = 0 * 0.0174532925f;
+	yaw   = 0 * 0.0174532925f;
+	roll  = 0 * 0.0174532925f;
+
+	// Create the rotation matrix from the yaw, pitch, and roll values.
+	D3DXMatrixRotationYawPitchRoll(&rotationMatrix, yaw, pitch, roll);
+
+	// Transform the lookAt and up vector by the rotation matrix so the view is correctly rotated at the origin.
+	D3DXVec3TransformCoord(&lookAt, &lookAt, &rotationMatrix);
+	D3DXVec3TransformCoord(&up, &up, &rotationMatrix);
+
+	// Translate the rotated camera position to the location of the viewer.
+	lookAt = position + lookAt;
+
+	// Finally create the view matrix from the three updated vectors.
+	D3DXMatrixLookAtLH(&viewMatrix, &position, &lookAt, &up);
+	///END_TEST///---------------------------------------------------------------------------
+
+	// Set the render buffers to be the render target.
+	m_deferredBuffers->SetRenderTargets(m_deviceContext);
+
+	// Clear the render buffers.
+	m_deferredBuffers->ClearRenderTargets(m_deviceContext);
+
+
+	// Render our scene
+	list<GameObject*>::iterator iter = gameObjects.begin();
+	for(; iter != gameObjects.end(); iter++)
+	{
+		if((*iter)->GetRenderer() != NULL)
+		{
+			(*iter)->GetRenderer()->Render(m_deviceContext, world, viewMatrix, proj);
+		}
+	}
+	m_deviceContext->OMSetRenderTargets(1, &m_renderTargetView, m_depthStencilView);
+	m_deviceContext->RSSetViewports(1, &m_viewport);
+}
+
+void DX11Manager::LightingPass()
+{
+	D3DXMATRIX world = m_worldMatrix;
+	D3DXMATRIX ortho = m_orthoMatrix;
+
+	D3DXMATRIX viewMatrix; //Needs to come from camera
+	///TEST///---------------------------------------------------------------------------
+	D3DXVECTOR3 up, position, lookAt;
+	float yaw, pitch, roll;
+	D3DXMATRIX rotationMatrix;
+
+
+	// Setup the vector that points upwards.
+	up.x = 0.0f;
+	up.y = 1.0f;
+	up.z = 0.0f;
+
+	// Setup the position of the camera in the world.
+	position.x = 0;
+	position.y = 0;
+	position.z = -10.0f;
+
+	// Setup where the camera is looking by default.
+	lookAt.x = 0.0f;
+	lookAt.y = 0.0f;
+	lookAt.z = 1.0f;
+
+	// Set the yaw (Y axis), pitch (X axis), and roll (Z axis) rotations in radians.
+	pitch = 0 * 0.0174532925f;
+	yaw   = 0 * 0.0174532925f;
+	roll  = 0 * 0.0174532925f;
+
+	// Create the rotation matrix from the yaw, pitch, and roll values.
+	D3DXMatrixRotationYawPitchRoll(&rotationMatrix, yaw, pitch, roll);
+
+	// Transform the lookAt and up vector by the rotation matrix so the view is correctly rotated at the origin.
+	D3DXVec3TransformCoord(&lookAt, &lookAt, &rotationMatrix);
+	D3DXVec3TransformCoord(&up, &up, &rotationMatrix);
+
+	// Translate the rotated camera position to the location of the viewer.
+	lookAt = position + lookAt;
+
+	// Finally create the view matrix from the three updated vectors.
+	D3DXMatrixLookAtLH(&viewMatrix, &position, &lookAt, &up);
+	///END_TEST///---------------------------------------------------------------------------
+
+	// Ambient Pass
+	m_ambientLightShader->SetShaderParameters(m_deviceContext, world, viewMatrix, ortho, m_deferredBuffers->GetTextures());
+	// Set the vertex input layout.
+	m_deviceContext->IASetInputLayout(m_ambientLightShader->GetInputLayout());
+
+	// Set the vertex and pixel shaders that will be used to render.
+	m_deviceContext->VSSetShader(m_ambientLightShader->GetVertexShader(), NULL, 0);
+	m_deviceContext->PSSetShader(m_ambientLightShader->GetPixelShader(), NULL, 0);
+
+	// Set the sampler state in the pixel shader.
+	// Set the sampler state in the pixel shader.
+	ID3D11SamplerState* sampleState = m_ambientLightShader->GetSampleState();
+	m_deviceContext->PSSetSamplers(0, 1, &sampleState);
+
+	// Render the geometry.
+	m_deviceContext->DrawIndexed(m_orthoWindow->GetIndexCount(), 0, 0);
+}
+
+void DX11Manager::SetZBuffer(bool toSet)
+{
+	if(toSet)
+	{
+		m_deviceContext->OMSetDepthStencilState(m_depthStencilState, 1);
+	}
+	else
+	{
+		m_deviceContext->OMSetDepthStencilState(m_depthDisabledStencilState, 1);
+	}
+}
+
+
+///////////////////
+/// Setup Stuff ///
+///////////////////
+
 
 bool DX11Manager::InitDx3d(void)
 {
@@ -180,8 +344,8 @@ bool DX11Manager::InitDx3d(void)
 	D3D11_TEXTURE2D_DESC depthBufferDesc;
 	D3D11_DEPTH_STENCIL_DESC depthStencilDesc;
 	D3D11_DEPTH_STENCIL_VIEW_DESC depthStencilViewDesc;
+	D3D11_DEPTH_STENCIL_DESC depthDisabledStencilDesc;
 	D3D11_RASTERIZER_DESC rasterDesc;
-	D3D11_VIEWPORT viewport;
 	float fieldOfView, screenAspect;
 
 	// Create a DirectX graphics interface factory.
@@ -429,6 +593,33 @@ bool DX11Manager::InitDx3d(void)
 		return false;
 	}
 
+	// Clear the second depth stencil state before setting the parameters.
+	ZeroMemory(&depthDisabledStencilDesc, sizeof(depthDisabledStencilDesc));
+
+	// Now create a second depth stencil state which turns off the Z buffer for 2D rendering.  The only difference is 
+	// that DepthEnable is set to false, all other parameters are the same as the other depth stencil state.
+	depthDisabledStencilDesc.DepthEnable = false;
+	depthDisabledStencilDesc.DepthWriteMask = D3D11_DEPTH_WRITE_MASK_ALL;
+	depthDisabledStencilDesc.DepthFunc = D3D11_COMPARISON_LESS;
+	depthDisabledStencilDesc.StencilEnable = true;
+	depthDisabledStencilDesc.StencilReadMask = 0xFF;
+	depthDisabledStencilDesc.StencilWriteMask = 0xFF;
+	depthDisabledStencilDesc.FrontFace.StencilFailOp = D3D11_STENCIL_OP_KEEP;
+	depthDisabledStencilDesc.FrontFace.StencilDepthFailOp = D3D11_STENCIL_OP_INCR;
+	depthDisabledStencilDesc.FrontFace.StencilPassOp = D3D11_STENCIL_OP_KEEP;
+	depthDisabledStencilDesc.FrontFace.StencilFunc = D3D11_COMPARISON_ALWAYS;
+	depthDisabledStencilDesc.BackFace.StencilFailOp = D3D11_STENCIL_OP_KEEP;
+	depthDisabledStencilDesc.BackFace.StencilDepthFailOp = D3D11_STENCIL_OP_DECR;
+	depthDisabledStencilDesc.BackFace.StencilPassOp = D3D11_STENCIL_OP_KEEP;
+	depthDisabledStencilDesc.BackFace.StencilFunc = D3D11_COMPARISON_ALWAYS;
+
+	// Create the state using the device.
+	result = m_device->CreateDepthStencilState(&depthDisabledStencilDesc, &m_depthDisabledStencilState);
+	if (FAILED(result))
+	{
+		return false;
+	}
+
 	// Bind the render target view and depth stencil buffer to the output render pipeline.
 	m_deviceContext->OMSetRenderTargets(1, &m_renderTargetView, m_depthStencilView);
 
@@ -455,15 +646,15 @@ bool DX11Manager::InitDx3d(void)
 	m_deviceContext->RSSetState(m_rasterState);
 
 	// Setup the viewport for rendering.
-	viewport.Width = (float)m_width;
-	viewport.Height = (float)m_height;
-	viewport.MinDepth = 0.0f;
-	viewport.MaxDepth = 1.0f;
-	viewport.TopLeftX = 0.0f;
-	viewport.TopLeftY = 0.0f;
+	m_viewport.Width = (float)m_width;
+	m_viewport.Height = (float)m_height;
+	m_viewport.MinDepth = 0.0f;
+	m_viewport.MaxDepth = 1.0f;
+	m_viewport.TopLeftX = 0.0f;
+	m_viewport.TopLeftY = 0.0f;
 
 	// Create the viewport.
-	m_deviceContext->RSSetViewports(1, &viewport);
+	m_deviceContext->RSSetViewports(1, &m_viewport);
 
 	// Setup the projection matrix.
 	fieldOfView = (float)D3DX_PI / 4.0f;
@@ -478,8 +669,22 @@ bool DX11Manager::InitDx3d(void)
 	// Create an orthographic projection matrix for 2D rendering.
 	D3DXMatrixOrthoLH(&m_orthoMatrix, (float)m_width, (float)m_height, m_screenNear, m_screenDepth);
 
+	// Create the deferred shader buffers
+	m_deferredBuffers = new DeferredBuffers(m_device, m_width, m_height, m_screenDepth, m_screenNear);
+	//Create the ortho window used for deferred rendering
+	m_orthoWindow = new OrthoWindow(m_device, m_width, m_height);
+	// Create Light Shaders to use
+	m_ambientLightShader = new AmbientLightShader();
+	this->LoadShader(L"AmbientLight.vs", L"AmbientLight.ps", m_ambientLightShader);
+
 	return true;
 }
+
+
+//////////////////////
+/// Creating Stuff ///
+//////////////////////
+
 
 Texture* DX11Manager::CreateTexture(const char* fileName)
 {
@@ -584,7 +789,7 @@ void DX11Manager::LoadShader(const WCHAR* vsFileName, const WCHAR* psFileName, S
 
 Mesh* DX11Manager::LoadMesh(const char* fileName)
 {
-	Mesh* mesh = new Mesh("Models/davidcube.obj");
+	Mesh* mesh = new Mesh(fileName);
 
 	if(mesh == 0)
 	{
@@ -594,6 +799,11 @@ Mesh* DX11Manager::LoadMesh(const char* fileName)
 	D3D11_BUFFER_DESC vertexBufferDesc, indexBufferDesc;
 	D3D11_SUBRESOURCE_DATA vertexData, indexData;
 
+	Mesh::Vertex* vertices = new Mesh::Vertex[mesh->GetVertexCount()];
+	if(!vertices)
+	{
+		return false;
+	}
 
 	unsigned long* indices = new unsigned long[mesh->GetIndexCount()];
 	if(!indices)
@@ -601,10 +811,19 @@ Mesh* DX11Manager::LoadMesh(const char* fileName)
 		return NULL;
 	}
 
-	for(int i=0; i<mesh->GetIndexCount(); ++i)
+	// Load the vertex array and index array with data.
+	for(int i=0; i<mesh->GetVertexCount(); i++)
 	{
+		vertices[i].position = D3DXVECTOR3(mesh->GetVertices()[i]->position.x, 
+			mesh->GetVertices()[i]->position.y, mesh->GetVertices()[i]->position.z);
+		vertices[i].texture = D3DXVECTOR2(mesh->GetVertices()[i]->texture.x, 
+			mesh->GetVertices()[i]->texture.y);
+		vertices[i].normal = D3DXVECTOR3(mesh->GetVertices()[i]->normal.x, 
+			mesh->GetVertices()[i]->normal.y, mesh->GetVertices()[i]->normal.z);
+
 		indices[i] = i;
 	}
+
 
 
 	// Set up the description of the static vertex buffer.
@@ -616,7 +835,7 @@ Mesh* DX11Manager::LoadMesh(const char* fileName)
 	vertexBufferDesc.StructureByteStride = 0;
 
 	// Give the subresource structure a pointer to the vertex data.
-	vertexData.pSysMem = &(mesh->GetVertices()[0]);
+	vertexData.pSysMem = vertices;
 	vertexData.SysMemPitch = 0;
 	vertexData.SysMemSlicePitch = 0;
 
@@ -655,6 +874,8 @@ Mesh* DX11Manager::LoadMesh(const char* fileName)
 	mesh->SetIndexBuffer(indexBuffer);
 
 	// Release the arrays now that the vertex and index buffers have been created and loaded.
+	delete [] vertices;
+	vertices = 0;
 
 	delete [] indices;
 	indices = 0;

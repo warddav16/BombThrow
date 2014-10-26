@@ -1,16 +1,17 @@
-#include "TextureShader.h"
+#include "DeferredShader.h"
 #include "MeshRenderer.h"
 
-TextureShader::TextureShader(void)
+
+DeferredShader::DeferredShader(void)
 {
 }
 
 
-TextureShader::~TextureShader(void)
+DeferredShader::~DeferredShader(void)
 {
 }
 
-void TextureShader::LoadShaderParameters(ID3D11Device* device, ID3D10Blob* vertexShaderBuffer, ID3D10Blob* pixelShaderBuffer)
+void DeferredShader::LoadShaderParameters(ID3D11Device* device, ID3D10Blob* vertexShaderBuffer, ID3D10Blob* pixelShaderBuffer)
 {
 	D3D11_INPUT_ELEMENT_DESC polygonLayout[3];
 	D3D11_BUFFER_DESC matrixBufferDesc;
@@ -93,13 +94,13 @@ void TextureShader::LoadShaderParameters(ID3D11Device* device, ID3D10Blob* verte
 	return ;
 }
 
-void TextureShader::SetShaderParameters(ID3D11DeviceContext* deviceContext, D3DXMATRIX worldMatrix, D3DXMATRIX viewMatrix, 
+void DeferredShader::SetShaderParameters(ID3D11DeviceContext* deviceContext, D3DXMATRIX worldMatrix, D3DXMATRIX viewMatrix, 
 					     D3DXMATRIX projectionMatrix, Texture** textures)
 {
 	HRESULT result;
 	D3D11_MAPPED_SUBRESOURCE mappedResource;
-	MatrixBufferType* dataPtr;
 	unsigned int bufferNumber;
+	MatrixBufferType* dataPtr;
 
 
 	// Transpose the matrices to prepare them for the shader.
@@ -111,7 +112,7 @@ void TextureShader::SetShaderParameters(ID3D11DeviceContext* deviceContext, D3DX
 	result = deviceContext->Map(m_matrixBuffer, 0, D3D11_MAP_WRITE_DISCARD, 0, &mappedResource);
 	if(FAILED(result))
 	{
-		return ;
+		return;
 	}
 
 	// Get a pointer to the data in the constant buffer.

@@ -18,9 +18,9 @@ public:
 
 	struct FaceIndexStructure
 	{
-		int vertIndex[3];
-		int textureIndex[3];
-		int normalIndex[3];
+		int vertIndex[4];
+		int textureIndex[4];
+		int normalIndex[4];
 	};
 
 	Mesh(void);

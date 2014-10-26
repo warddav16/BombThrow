@@ -23,6 +23,7 @@ public:
 	Texture* GetTexture(int n) { return m_textures[n]; }
 	void SetShader(Shader* shader) { m_shader = shader; }
 	Shader* GetShader() { return m_shader; }
+	std::vector<Texture*> GetTextures() { return m_textures; }
 
 	void Init(ID3D11Device* );
 

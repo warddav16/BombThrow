@@ -98,7 +98,21 @@
     <ClCompile Include="Shader.cpp">
       <Filter>Graphics\Core</Filter>
     </ClCompile>
-    <ClCompile Include="TextureShader.cpp" />
+    <ClCompile Include="TextureShader.cpp">
+      <Filter>Graphics\Shaders</Filter>
+    </ClCompile>
+    <ClCompile Include="DeferredBuffers.cpp">
+      <Filter>Graphics\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="DeferredShader.cpp">
+      <Filter>Graphics\Shaders</Filter>
+    </ClCompile>
+    <ClCompile Include="OrthoWindow.cpp">
+      <Filter>Graphics\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="AmbientLightShader.cpp">
+      <Filter>Graphics\Shaders</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="IRendererManager.h">
@@ -143,13 +157,39 @@
     <ClInclude Include="Shader.h">
       <Filter>Graphics\Core</Filter>
     </ClInclude>
-    <ClInclude Include="TextureShader.h" />
+    <ClInclude Include="TextureShader.h">
+      <Filter>Graphics\Shaders</Filter>
+    </ClInclude>
+    <ClInclude Include="DeferredBuffers.h">
+      <Filter>Graphics\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="DeferredShader.h">
+      <Filter>Graphics\Shaders</Filter>
+    </ClInclude>
+    <ClInclude Include="OrthoWindow.h">
+      <Filter>Graphics\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="AmbientLightShader.h">
+      <Filter>Graphics\Shaders</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="TextureShaderUnlit.ps">
       <Filter>Shaders</Filter>
     </None>
     <None Include="TextureShaderUnlit.vs">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="Deferred.ps">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="Deferred.vs">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="AmbientLight.ps">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="AmbientLight.vs">
       <Filter>Shaders</Filter>
     </None>
   </ItemGroup>

@@ -55,7 +55,10 @@ void MeshRenderer::Render(ID3D11DeviceContext* deviceContext, D3DXMATRIX world, 
 	// Set the type of primitive that should be rendered from this vertex buffer, in this case triangles.
 	deviceContext->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 
-	m_shader->SetShaderParameters(deviceContext, world, view, projection, this);
+	if(m_textures.size() > 0)
+		m_shader->SetShaderParameters(deviceContext, world, view, projection, &m_textures[0]); // Converts to texture array
+	else
+		m_shader->SetShaderParameters(deviceContext, world, view, projection, NULL);
 
 	// Set the vertex input layout.
 	deviceContext->IASetInputLayout(m_shader->GetInputLayout());

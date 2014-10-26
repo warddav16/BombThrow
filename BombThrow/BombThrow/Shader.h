@@ -4,6 +4,8 @@
 #include <d3dx10math.h>
 #include <d3dx11async.h>
 
+#include "Texture.h"
+
 class MeshRenderer;
 
 class Shader
@@ -21,7 +23,7 @@ public:
 
 	virtual void LoadShaderParameters(ID3D11Device* device, ID3D10Blob* vertexShaderBuffer, ID3D10Blob* pixelShaderBuffer) = 0;
 	virtual void SetShaderParameters(ID3D11DeviceContext* deviceContext, D3DXMATRIX worldMatrix, D3DXMATRIX viewMatrix, 
-					     D3DXMATRIX projectionMatrix, MeshRenderer* texture) = 0;
+					     D3DXMATRIX projectionMatrix, Texture** texture) = 0;
 	virtual char* GetVertexFunctionName() = 0;
 	virtual char* GetPixelFunctionName() = 0;
 

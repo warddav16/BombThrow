@@ -119,6 +119,12 @@ void Mesh::LoadObj(const char* fileName)
 				checkChar = fileIn.get(); // '/'
 				fileIn >> face.normalIndex[2];
 
+				fileIn >> face.vertIndex[3];
+				checkChar = fileIn.get(); // '/'
+				fileIn >> face.textureIndex[3];
+				checkChar = fileIn.get(); // '/'
+				fileIn >> face.normalIndex[3];
+
 				faces.push_back(face);
 			}
 			break;
@@ -130,7 +136,7 @@ void Mesh::LoadObj(const char* fileName)
 	vector<FaceIndexStructure>::iterator iter = faces.begin();
 	for(; iter != faces.end(); iter++)
 	{
-		for(int i=0; i<3; ++i)
+		for(int i=0; i<4; ++i)
 		{
 			Vertex* vert = new Vertex();
 			vert->position = vertexPos[iter->vertIndex[i]-1];

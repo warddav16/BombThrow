@@ -74,10 +74,13 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="AmbientLightShader.cpp" />
     <ClCompile Include="ComponentBase.cpp" />
     <ClCompile Include="CubeFactory.cpp" />
     <ClCompile Include="CustomBehavior.cpp" />
     <ClCompile Include="daviDsTestFactory.cpp" />
+    <ClCompile Include="DeferredBuffers.cpp" />
+    <ClCompile Include="DeferredShader.cpp" />
     <ClCompile Include="DX11Manager.cpp" />
     <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="GameObjectManager.cpp" />
@@ -86,16 +89,20 @@
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Mesh.cpp" />
     <ClCompile Include="MeshRenderer.cpp" />
+    <ClCompile Include="OrthoWindow.cpp" />
     <ClCompile Include="Renderer.cpp" />
     <ClCompile Include="Shader.cpp" />
     <ClCompile Include="Texture.cpp" />
     <ClCompile Include="TextureShader.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="AmbientLightShader.h" />
     <ClInclude Include="ComponentBase.h" />
     <ClInclude Include="CubeFactory.h" />
     <ClInclude Include="CustomBehavior.h" />
     <ClInclude Include="daviDsTestFactory.h" />
+    <ClInclude Include="DeferredBuffers.h" />
+    <ClInclude Include="DeferredShader.h" />
     <ClInclude Include="DX11Manager.h" />
     <ClInclude Include="GameObject.h" />
     <ClInclude Include="GameObjectManager.h" />
@@ -103,12 +110,17 @@
     <ClInclude Include="IRendererManager.h" />
     <ClInclude Include="Mesh.h" />
     <ClInclude Include="MeshRenderer.h" />
+    <ClInclude Include="OrthoWindow.h" />
     <ClInclude Include="Renderer.h" />
     <ClInclude Include="Shader.h" />
     <ClInclude Include="Texture.h" />
     <ClInclude Include="TextureShader.h" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="AmbientLight.ps" />
+    <None Include="AmbientLight.vs" />
+    <None Include="Deferred.ps" />
+    <None Include="Deferred.vs" />
     <None Include="TextureShaderUnlit.ps" />
     <None Include="TextureShaderUnlit.vs" />
   </ItemGroup>

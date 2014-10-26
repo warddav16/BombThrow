@@ -2,7 +2,7 @@
 
 #include "Mesh.h"
 #include "Texture.h"
-#include "TextureShader.h"
+#include "DeferredShader.h"
 #include "MeshRenderer.h"
 #include "GraphicsManager.h"
 
@@ -29,8 +29,8 @@ GameObject* CubeFactory::Setup()
 	Texture* texture  = GraphicsManager::Instance().CreateTexture("Textures/testTexture.dds");
 	meshRenderer->AddTexture(texture);
 
-	Shader* shader = new TextureShader();
-	GraphicsManager::Instance().LoadShader(L"TextureShaderUnlit.vs", L"TextureShaderUnlit.ps", shader);
+	Shader* shader = new DeferredShader();
+	GraphicsManager::Instance().LoadShader(L"Deferred.vs", L"Deferred.ps", shader);
 	meshRenderer->SetShader(shader);
 
 	return cube;
