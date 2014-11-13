@@ -113,6 +113,9 @@
     <ClCompile Include="AmbientLightShader.cpp">
       <Filter>Graphics\Shaders</Filter>
     </ClCompile>
+    <ClCompile Include="TimeManager.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="IRendererManager.h">
@@ -171,6 +174,9 @@
     </ClInclude>
     <ClInclude Include="AmbientLightShader.h">
       <Filter>Graphics\Shaders</Filter>
+    </ClInclude>
+    <ClInclude Include="TimeManager.h">
+      <Filter>Core</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

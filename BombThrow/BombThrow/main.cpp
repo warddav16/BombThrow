@@ -2,6 +2,7 @@
 #include "Windows.h"
 #include "GraphicsManager.h"
 #include "GameObjectManager.h"
+#include "TimeManager.h"
 
 #include "daviDsTestFactory.h"
 
@@ -65,7 +66,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PSTR pScmdline,
 	//Storing values to reduce lookup times
 	GraphicsManager& graphicsManager = GraphicsManager::Instance();
 	GameObjectManager& gameObjectManager = GameObjectManager::Instance();
-	
+	TimeManager& timeManager = TimeManager::Instance();
 
 	//Startup Managers
 	graphicsManager.Startup(hWnd);
@@ -89,8 +90,10 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PSTR pScmdline,
 		}
 		else
 		{
+			float delta = timeManager.CalculateDelta();
 			//Update game objects
-			gameObjectManager.Update(0);
+
+			gameObjectManager.Update(delta);
 
 			//Update physics
 			//Do collisions
