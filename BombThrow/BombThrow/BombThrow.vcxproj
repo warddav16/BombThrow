@@ -76,6 +76,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="AmbientLightShader.cpp" />
+    <ClCompile Include="Camera.cpp" />
     <ClCompile Include="ComponentBase.cpp" />
     <ClCompile Include="CubeFactory.cpp" />
     <ClCompile Include="CustomBehavior.cpp" />
@@ -86,6 +87,7 @@
     <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="GameObjectManager.cpp" />
     <ClCompile Include="GraphicsManager.cpp" />
+    <ClCompile Include="InputManager.cpp" />
     <ClCompile Include="IRendererManager.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Mesh.cpp" />
@@ -99,6 +101,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AmbientLightShader.h" />
+    <ClInclude Include="Camera.h" />
     <ClInclude Include="ComponentBase.h" />
     <ClInclude Include="CubeFactory.h" />
     <ClInclude Include="CustomBehavior.h" />
@@ -109,7 +112,9 @@
     <ClInclude Include="GameObject.h" />
     <ClInclude Include="GameObjectManager.h" />
     <ClInclude Include="GraphicsManager.h" />
+    <ClInclude Include="InputManager.h" />
     <ClInclude Include="IRendererManager.h" />
+    <ClInclude Include="KeyCode.h" />
     <ClInclude Include="Mesh.h" />
     <ClInclude Include="MeshRenderer.h" />
     <ClInclude Include="OrthoWindow.h" />

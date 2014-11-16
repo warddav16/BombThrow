@@ -116,6 +116,12 @@
     <ClCompile Include="TimeManager.cpp">
       <Filter>Core</Filter>
     </ClCompile>
+    <ClCompile Include="Camera.cpp">
+      <Filter>Graphics\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="InputManager.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="IRendererManager.h">
@@ -176,6 +182,15 @@
       <Filter>Graphics\Shaders</Filter>
     </ClInclude>
     <ClInclude Include="TimeManager.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Camera.h">
+      <Filter>Graphics\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="InputManager.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="KeyCode.h">
       <Filter>Core</Filter>
     </ClInclude>
   </ItemGroup>
