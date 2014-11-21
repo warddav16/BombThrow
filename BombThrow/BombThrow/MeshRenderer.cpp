@@ -2,6 +2,7 @@
 
 #include "GameObject.h"
 #include "DX11Manager.h"
+#include "Transform.h"
 
 using std::vector;
 
@@ -52,6 +53,7 @@ void MeshRenderer::Render(ID3D11DeviceContext* deviceContext, D3DXMATRIX world, 
 	ID3D11Buffer* indexBuffer = m_mesh->GetIndexBuffer();
 	deviceContext->IASetIndexBuffer(indexBuffer, DXGI_FORMAT_R32_UINT, 0);
 
+	world *= m_gameObject->GetTransform()->GetTransformMatrix();
 	// Set the type of primitive that should be rendered from this vertex buffer, in this case triangles.
 	deviceContext->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 

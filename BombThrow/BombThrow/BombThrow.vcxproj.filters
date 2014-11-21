@@ -122,6 +122,9 @@
     <ClCompile Include="InputManager.cpp">
       <Filter>Core</Filter>
     </ClCompile>
+    <ClCompile Include="Transform.cpp">
+      <Filter>Core\GameObjects</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="IRendererManager.h">
@@ -192,6 +195,9 @@
     </ClInclude>
     <ClInclude Include="KeyCode.h">
       <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Transform.h">
+      <Filter>Core\GameObjects</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

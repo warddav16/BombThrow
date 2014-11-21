@@ -2,11 +2,13 @@
 
 #include "CustomBehavior.h"
 #include "Renderer.h"
+#include "Transform.h"
 
 using std::list;
 
 GameObject::GameObject(void)
 {
+	m_transform = new Transform();
 }
 
 
