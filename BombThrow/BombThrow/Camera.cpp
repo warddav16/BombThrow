@@ -30,13 +30,7 @@ D3DXMATRIX Camera::GetViewMatrix()
 	// Setup where the camera is looking by default.
 	lookAt = m_gameObject->GetTransform()->Forward();
 
-	// Set the yaw (Y axis), pitch (X axis), and roll (Z axis) rotations in radians.
-	pitch = 0 * 0.0174532925f;
-	yaw   = 0 * 0.0174532925f;
-	roll  = 0 * 0.0174532925f;
-
-	// Create the rotation matrix from the yaw, pitch, and roll values.
-	D3DXMatrixRotationYawPitchRoll(&rotationMatrix, yaw, pitch, roll);
+	D3DXMatrixRotationQuaternion(&rotationMatrix, &(m_gameObject->GetTransform()->GetRotation()));
 
 	// Transform the lookAt and up vector by the rotation matrix so the view is correctly rotated at the origin.
 	D3DXVec3TransformCoord(&lookAt, &lookAt, &rotationMatrix);

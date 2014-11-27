@@ -46,3 +46,10 @@ D3DXVECTOR3 Transform::Right()
 	D3DXVec3Normalize(&right, &right);
 	return right;
 }
+
+void Transform::Rotate(D3DXVECTOR3 vec, float angle)
+{
+	D3DXQUATERNION rot;
+	D3DXQuaternionRotationAxis(&rot, &vec, angle);
+	m_rotation += rot;
+}

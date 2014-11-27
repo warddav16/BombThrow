@@ -68,7 +68,8 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PSTR pScmdline,
 	GraphicsManager& graphicsManager = GraphicsManager::Instance();
 	GameObjectManager& gameObjectManager = GameObjectManager::Instance();
 	TimeManager& timeManager = TimeManager::Instance();
-	InputManager& inputManager = InputManager::Instance(hInstance, hWnd, 500, 400);
+	InputManager& inputManager = InputManager::Instance();
+	inputManager.Initialize(hInstance, hWnd, 500, 400);
 
 	//Startup Managers
 	graphicsManager.Startup(hWnd);

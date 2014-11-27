@@ -1,7 +1,7 @@
 #include "InputManager.h"
 
 
-InputManager::InputManager(HINSTANCE hinstance, HWND hwnd, int screenWidth, int screenHeight)
+void InputManager::Initialize(HINSTANCE hinstance, HWND hwnd, int screenWidth, int screenHeight)
 {
 	m_directInput = 0;
 	m_keyboard = 0;

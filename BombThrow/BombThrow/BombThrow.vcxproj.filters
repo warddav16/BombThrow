@@ -53,6 +53,9 @@
     <Filter Include="Graphics\Shaders">
       <UniqueIdentifier>{cad767ff-072e-4c5c-8018-57833ab979bc}</UniqueIdentifier>
     </Filter>
+    <Filter Include="THEGAME\BomberThrower\Components">
+      <UniqueIdentifier>{23a7dd5b-191c-4911-8cd8-02fed0daba9f}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp" />
@@ -127,6 +130,9 @@
     </ClCompile>
     <ClCompile Include="DebugCameraFactory.cpp">
       <Filter>THEGAME\Testing</Filter>
+    </ClCompile>
+    <ClCompile Include="FreeFormController.cpp">
+      <Filter>THEGAME\BomberThrower\Components</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -204,6 +210,9 @@
     </ClInclude>
     <ClInclude Include="DebugCameraFactory.h">
       <Filter>THEGAME\Testing</Filter>
+    </ClInclude>
+    <ClInclude Include="FreeFormController.h">
+      <Filter>THEGAME\BomberThrower\Components</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

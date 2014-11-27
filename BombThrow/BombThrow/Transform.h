@@ -15,10 +15,12 @@ public:
 	D3DXQUATERNION GetRotation() { return m_rotation; }
 
 	void SetPosition(D3DXVECTOR3 vec) { m_position = D3DXVECTOR3(vec); }
+
 	void SetX(float x) { m_position.x = x; }
 	void SetY(float y) { m_position.y = y; }
 	void SetZ(float z) { m_position.z = z; }
 	void Translate(D3DXVECTOR3 vec) { m_position += vec; }
+	void Rotate(D3DXVECTOR3 vec, float angle);
 	void SetRotation(D3DXQUATERNION quat) { m_rotation = quat; }
 	D3DXMATRIX GetTransformMatrix();
 	D3DXVECTOR3 Up();

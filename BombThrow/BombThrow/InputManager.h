@@ -12,13 +12,14 @@
 class InputManager
 {
 public:
-	static InputManager& Instance(HINSTANCE hinstance, HWND hwnd, int screenWidth, int screenHeight)
+	static InputManager& Instance()
 	{
-		static InputManager instance(hinstance, hwnd, screenWidth, screenHeight);
-		return instance; //Fancy singleton pattern
+		static InputManager instance;
+		return instance;
 	}
 	
 	~InputManager(void);
+	void Initialize(HINSTANCE hinstance, HWND hwnd, int screenWidth, int screenHeight);
 	void PollInput();
 	void GetMouseLocation(int& mouseX, int& mouseY) { mouseX = m_mouseX; mouseY = m_mouseY; }
 	bool GetKey(KeyCode key) { return m_keyboardState[key] & 0x80; }
