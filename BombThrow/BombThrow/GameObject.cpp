@@ -3,12 +3,15 @@
 #include "CustomBehavior.h"
 #include "Renderer.h"
 #include "Transform.h"
+#include "Camera.h"
 
 using std::list;
 
 GameObject::GameObject(void)
 {
-	m_transform = new Transform();
+	m_transform = new Transform(this);
+	m_renderer = NULL;
+	m_camera = NULL;
 }
 
 
@@ -25,6 +28,16 @@ GameObject::~GameObject(void)
 	if(m_renderer != NULL)
 	{
 		delete m_renderer;
+	}
+
+	if(m_camera != NULL)
+	{
+		delete m_camera;
+	}
+
+	if(m_transform != NULL)
+	{
+		delete m_transform;
 	}
 }
 

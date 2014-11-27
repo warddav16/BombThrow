@@ -5,6 +5,7 @@
 class CustomBehavior;
 class Renderer;
 class Transform;
+class Camera;
 
 class GameObject
 {
@@ -21,10 +22,14 @@ public:
 
 	Transform* GetTransform() { return m_transform; }
 
+	Camera* GetCamera() { return m_camera; }
+	void SetCamera(Camera* cam) { m_camera = cam; }
+
 private:
 	std::list<CustomBehavior*> m_components;
 
 	Renderer* m_renderer;
 	Transform* m_transform;
+	Camera* m_camera;
 };
 

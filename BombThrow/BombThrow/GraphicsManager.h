@@ -5,6 +5,7 @@
 #include "Texture.h"
 #include "Shader.h"
 #include "Mesh.h"
+#include "Camera.h"
 
 #include <d3d11.h>
 #include <d3dx11tex.h>
@@ -32,6 +33,8 @@ public:
 	Mesh* LoadMesh(const char* fileName);
 	Texture* CreateTexture(const char* fileName);
 	void LoadShader(const WCHAR* vsFileName, const WCHAR* psFileName, Shader* shader);
+	Camera* GetCamera() { return m_camera; }
+	void SetCamera(Camera* cam) { m_camera = cam; }
 
 private:
 	GraphicsManager(void);
@@ -40,5 +43,6 @@ private:
 
 private:
 	IRendererManager* m_renderManager;
+	Camera* m_camera;
 };
 

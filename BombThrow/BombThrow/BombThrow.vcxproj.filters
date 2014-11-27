@@ -125,6 +125,9 @@
     <ClCompile Include="Transform.cpp">
       <Filter>Core\GameObjects</Filter>
     </ClCompile>
+    <ClCompile Include="DebugCameraFactory.cpp">
+      <Filter>THEGAME\Testing</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="IRendererManager.h">
@@ -198,6 +201,9 @@
     </ClInclude>
     <ClInclude Include="Transform.h">
       <Filter>Core\GameObjects</Filter>
+    </ClInclude>
+    <ClInclude Include="DebugCameraFactory.h">
+      <Filter>THEGAME\Testing</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

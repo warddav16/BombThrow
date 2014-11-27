@@ -81,6 +81,7 @@
     <ClCompile Include="CubeFactory.cpp" />
     <ClCompile Include="CustomBehavior.cpp" />
     <ClCompile Include="daviDsTestFactory.cpp" />
+    <ClCompile Include="DebugCameraFactory.cpp" />
     <ClCompile Include="DeferredBuffers.cpp" />
     <ClCompile Include="DeferredShader.cpp" />
     <ClCompile Include="DX11Manager.cpp" />
@@ -107,6 +108,7 @@
     <ClInclude Include="CubeFactory.h" />
     <ClInclude Include="CustomBehavior.h" />
     <ClInclude Include="daviDsTestFactory.h" />
+    <ClInclude Include="DebugCameraFactory.h" />
     <ClInclude Include="DeferredBuffers.h" />
     <ClInclude Include="DeferredShader.h" />
     <ClInclude Include="DX11Manager.h" />

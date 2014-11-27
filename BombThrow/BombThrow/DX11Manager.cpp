@@ -10,6 +10,8 @@
 #pragma comment(lib, "d3dx11.lib")
 #pragma comment(lib, "d3dx10.lib")
 
+#include "GraphicsManager.h"
+
 using std::list;
 
 DX11Manager::DX11Manager(void)
@@ -185,46 +187,7 @@ void DX11Manager::RenderToTextures(list<GameObject*> gameObjects)
 	D3DXMATRIX world = m_worldMatrix;
 	D3DXMATRIX proj = m_projectionMatrix;
 
-	D3DXMATRIX viewMatrix; //Needs to come from camera
-	///TEST///---------------------------------------------------------------------------
-	D3DXVECTOR3 up, position, lookAt;
-	float yaw, pitch, roll;
-	D3DXMATRIX rotationMatrix;
-
-
-	// Setup the vector that points upwards.
-	up.x = 0.0f;
-	up.y = 1.0f;
-	up.z = 0.0f;
-
-	// Setup the position of the camera in the world.
-	position.x = 0;
-	position.y = 0;
-	position.z = -10.0f;
-
-	// Setup where the camera is looking by default.
-	lookAt.x = 0.0f;
-	lookAt.y = 0.0f;
-	lookAt.z = 1.0f;
-
-	// Set the yaw (Y axis), pitch (X axis), and roll (Z axis) rotations in radians.
-	pitch = 0 * 0.0174532925f;
-	yaw   = 0 * 0.0174532925f;
-	roll  = 0 * 0.0174532925f;
-
-	// Create the rotation matrix from the yaw, pitch, and roll values.
-	D3DXMatrixRotationYawPitchRoll(&rotationMatrix, yaw, pitch, roll);
-
-	// Transform the lookAt and up vector by the rotation matrix so the view is correctly rotated at the origin.
-	D3DXVec3TransformCoord(&lookAt, &lookAt, &rotationMatrix);
-	D3DXVec3TransformCoord(&up, &up, &rotationMatrix);
-
-	// Translate the rotated camera position to the location of the viewer.
-	lookAt = position + lookAt;
-
-	// Finally create the view matrix from the three updated vectors.
-	D3DXMatrixLookAtLH(&viewMatrix, &position, &lookAt, &up);
-	///END_TEST///---------------------------------------------------------------------------
+	D3DXMATRIX viewMatrix = GraphicsManager::Instance().GetCamera()->GetViewMatrix();
 
 	// Set the render buffers to be the render target.
 	m_deferredBuffers->SetRenderTargets(m_deviceContext);
@@ -251,46 +214,7 @@ void DX11Manager::LightingPass()
 	D3DXMATRIX world = m_worldMatrix;
 	D3DXMATRIX ortho = m_orthoMatrix;
 
-	D3DXMATRIX viewMatrix; //Needs to come from camera
-	///TEST///---------------------------------------------------------------------------
-	D3DXVECTOR3 up, position, lookAt;
-	float yaw, pitch, roll;
-	D3DXMATRIX rotationMatrix;
-
-
-	// Setup the vector that points upwards.
-	up.x = 0.0f;
-	up.y = 1.0f;
-	up.z = 0.0f;
-
-	// Setup the position of the camera in the world.
-	position.x = 0;
-	position.y = 0;
-	position.z = -10.0f;
-
-	// Setup where the camera is looking by default.
-	lookAt.x = 0.0f;
-	lookAt.y = 0.0f;
-	lookAt.z = 1.0f;
-
-	// Set the yaw (Y axis), pitch (X axis), and roll (Z axis) rotations in radians.
-	pitch = 0 * 0.0174532925f;
-	yaw   = 0 * 0.0174532925f;
-	roll  = 0 * 0.0174532925f;
-
-	// Create the rotation matrix from the yaw, pitch, and roll values.
-	D3DXMatrixRotationYawPitchRoll(&rotationMatrix, yaw, pitch, roll);
-
-	// Transform the lookAt and up vector by the rotation matrix so the view is correctly rotated at the origin.
-	D3DXVec3TransformCoord(&lookAt, &lookAt, &rotationMatrix);
-	D3DXVec3TransformCoord(&up, &up, &rotationMatrix);
-
-	// Translate the rotated camera position to the location of the viewer.
-	lookAt = position + lookAt;
-
-	// Finally create the view matrix from the three updated vectors.
-	D3DXMatrixLookAtLH(&viewMatrix, &position, &lookAt, &up);
-	///END_TEST///---------------------------------------------------------------------------
+	D3DXMATRIX viewMatrix = GraphicsManager::Instance().GetCamera()->GetViewMatrix();
 
 	// Ambient Pass
 	m_ambientLightShader->SetShaderParameters(m_deviceContext, world, viewMatrix, ortho, m_deferredBuffers->GetTextures());
