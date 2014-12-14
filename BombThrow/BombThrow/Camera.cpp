@@ -31,7 +31,6 @@ D3DXMATRIX Camera::GetViewMatrix()
 	lookAt = m_gameObject->GetTransform()->Forward();
 
 	D3DXMatrixRotationQuaternion(&rotationMatrix, &(m_gameObject->GetTransform()->GetRotation()));
-
 	// Transform the lookAt and up vector by the rotation matrix so the view is correctly rotated at the origin.
 	D3DXVec3TransformCoord(&lookAt, &lookAt, &rotationMatrix);
 	D3DXVec3TransformCoord(&up, &up, &rotationMatrix);

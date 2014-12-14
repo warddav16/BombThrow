@@ -5,7 +5,7 @@
 #include "DeferredShader.h"
 #include "MeshRenderer.h"
 #include "GraphicsManager.h"
-
+#include "FreeFormController.h"
 
 CubeFactory::CubeFactory(void)
 {
@@ -32,6 +32,7 @@ GameObject* CubeFactory::Setup()
 	Shader* shader = new DeferredShader();
 	GraphicsManager::Instance().LoadShader(L"Deferred.vs", L"Deferred.ps", shader);
 	meshRenderer->SetShader(shader);
+	//cube->AddBehavior(new FreeFormController(cube));
 
 	return cube;
 }

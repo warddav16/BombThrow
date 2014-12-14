@@ -145,7 +145,7 @@ void DX11Manager::RenderFrame(list<GameObject*> gameObjects)
 	float color[4];
 	color[0]=0;
 	color[1]=0;
-	color[2]=0;
+	color[2]=0.3f;
 	color[3]=0;
 
 	// Clear the back buffer.
@@ -214,7 +214,45 @@ void DX11Manager::LightingPass()
 	D3DXMATRIX world = m_worldMatrix;
 	D3DXMATRIX ortho = m_orthoMatrix;
 
-	D3DXMATRIX viewMatrix = GraphicsManager::Instance().GetCamera()->GetViewMatrix();
+	D3DXMATRIX viewMatrix; //Needs to come from camera
+	///TEST///---------------------------------------------------------------------------
+	D3DXVECTOR3 up, position, lookAt;
+	float yaw, pitch, roll;
+	D3DXMATRIX rotationMatrix;
+
+
+	// Setup the vector that points upwards.
+	up.x = 0.0f;
+	up.y = 1.0f;
+	up.z = 0.0f;
+
+	// Setup the position of the camera in the world.
+	position.x = 0;
+	position.y = 0;
+	position.z = -10.0f;
+	// Setup where the camera is looking by default.
+	lookAt.x = 0.0f;
+	lookAt.y = 0.0f;
+	lookAt.z = 1.0f;
+
+	// Set the yaw (Y axis), pitch (X axis), and roll (Z axis) rotations in radians.
+	pitch = 0;
+	yaw   = 0;
+	roll  = 0;
+
+	// Create the rotation matrix from the yaw, pitch, and roll values.
+	D3DXMatrixRotationYawPitchRoll(&rotationMatrix, yaw, pitch, roll);
+
+	// Transform the lookAt and up vector by the rotation matrix so the view is correctly rotated at the origin.
+	D3DXVec3TransformCoord(&lookAt, &lookAt, &rotationMatrix);
+	D3DXVec3TransformCoord(&up, &up, &rotationMatrix);
+
+	// Translate the rotated camera position to the location of the viewer.
+	lookAt = position + lookAt;
+
+	// Finally create the view matrix from the three updated vectors.
+	D3DXMatrixLookAtLH(&viewMatrix, &position, &lookAt, &up);
+	///END_TEST///---------------------------------------------------------------------------
 
 	// Ambient Pass
 	m_ambientLightShader->SetShaderParameters(m_deviceContext, world, viewMatrix, ortho, m_deferredBuffers->GetTextures());
@@ -225,7 +263,6 @@ void DX11Manager::LightingPass()
 	m_deviceContext->VSSetShader(m_ambientLightShader->GetVertexShader(), NULL, 0);
 	m_deviceContext->PSSetShader(m_ambientLightShader->GetPixelShader(), NULL, 0);
 
-	// Set the sampler state in the pixel shader.
 	// Set the sampler state in the pixel shader.
 	ID3D11SamplerState* sampleState = m_ambientLightShader->GetSampleState();
 	m_deviceContext->PSSetSamplers(0, 1, &sampleState);
