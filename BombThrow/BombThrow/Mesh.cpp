@@ -130,7 +130,7 @@ void Mesh::LoadObj(const char* fileName)
 	vector<FaceIndexStructure>::iterator iter = faces.begin();
 	for(; iter != faces.end(); iter++)
 	{
-		for(int i=0; i<3; ++i)
+		for(int i=2; i>=0; --i)
 		{
 			Vertex* vert = new Vertex();
 			vert->position = vertexPos[iter->vertIndex[i]-1];
