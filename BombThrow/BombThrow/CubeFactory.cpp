@@ -23,7 +23,7 @@ GameObject* CubeFactory::Setup()
 	GameObject* cube =  new GameObject();
 	MeshRenderer* meshRenderer = new MeshRenderer(cube);
 
-	Mesh* mesh = GraphicsManager::Instance().LoadMesh("Models/davidcube.obj");
+	Mesh* mesh = GraphicsManager::Instance().LoadMesh("Models/fancycube.obj");
 	meshRenderer->SetMesh(mesh);
 
 	Texture* texture  = GraphicsManager::Instance().CreateTexture("Textures/testTexture.dds");

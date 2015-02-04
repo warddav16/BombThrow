@@ -25,7 +25,7 @@ D3DXMATRIX Camera::GetViewMatrix()
 	up = m_gameObject->GetTransform()->Up();
 
 	// Setup the position of the camera in the world.
-	position = m_gameObject->GetTransform()->GetPosition();;
+	position = m_gameObject->GetTransform()->GetPosition();
 
 	// Setup where the camera is looking by default.
 	lookAt = m_gameObject->GetTransform()->Forward();
