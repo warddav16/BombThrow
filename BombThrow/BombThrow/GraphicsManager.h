@@ -6,6 +6,7 @@
 #include "Shader.h"
 #include "Mesh.h"
 #include "Camera.h"
+#include "Light.h"
 
 #include <d3d11.h>
 #include <d3dx11tex.h>
@@ -35,6 +36,9 @@ public:
 	void LoadShader(const WCHAR* vsFileName, const WCHAR* psFileName, Shader* shader);
 	Camera* GetCamera() { return m_camera; }
 	void SetCamera(Camera* cam) { m_camera = cam; }
+	void AddLight(Light* light) { m_lights.push_back(light); }
+	std::vector<Light*>* GetLights() { return &m_lights; }
+	
 
 private:
 	GraphicsManager(void);
@@ -44,5 +48,6 @@ private:
 private:
 	IRendererManager* m_renderManager;
 	Camera* m_camera;
+	std::vector<Light*> m_lights;
 };
 

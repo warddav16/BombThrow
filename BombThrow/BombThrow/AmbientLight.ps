@@ -12,5 +12,5 @@ struct PixelInputType
 
 float4 AmbientPixelShader(PixelInputType input) : SV_TARGET
 {
-	return colorTexture.Sample(SampleTypePoint, input.tex);
+	return colorTexture.Sample(SampleTypePoint, input.tex) * .1f;
 }

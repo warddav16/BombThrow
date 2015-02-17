@@ -12,6 +12,7 @@ GameObject::GameObject(void)
 	m_transform = new Transform(this);
 	m_renderer = NULL;
 	m_camera = NULL;
+	m_light = NULL;
 }
 
 
@@ -38,6 +39,11 @@ GameObject::~GameObject(void)
 	if(m_transform != NULL)
 	{
 		delete m_transform;
+	}
+
+	if (m_light != NULL)
+	{
+		delete m_light;
 	}
 }
 

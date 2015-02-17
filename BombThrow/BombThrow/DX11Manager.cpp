@@ -13,6 +13,7 @@
 #include "GraphicsManager.h"
 
 using std::list;
+using std::vector;
 
 DX11Manager::DX11Manager(void)
 {
@@ -144,8 +145,8 @@ void DX11Manager::RenderFrame(list<GameObject*> gameObjects)
 
 	float color[4];
 	color[0]=0;
-	color[1]=0;
-	color[2]=0.3f;
+	color[1]=0.3;
+	color[2]=0.f;
 	color[3]=0;
 
 	// Clear the back buffer.
@@ -253,6 +254,16 @@ void DX11Manager::LightingPass()
 	// Finally create the view matrix from the three updated vectors.
 	D3DXMatrixLookAtLH(&viewMatrix, &position, &lookAt, &up);
 	///END_TEST///---------------------------------------------------------------------------
+	
+	// Lighting pass
+	vector<Light*>::iterator lightIter = GraphicsManager::Instance().GetLights()->begin();
+	for (; lightIter != GraphicsManager::Instance().GetLights()->end(); ++lightIter)
+	{
+		(*lightIter)->ApplyLight(m_deviceContext, world, viewMatrix, ortho, m_deferredBuffers->GetTextures());
+		// Render the geometry.
+		m_deviceContext->DrawIndexed(m_orthoWindow->GetIndexCount(), 0, 0);
+	}
+
 
 	// Ambient Pass
 	m_ambientLightShader->SetShaderParameters(m_deviceContext, world, viewMatrix, ortho, m_deferredBuffers->GetTextures());

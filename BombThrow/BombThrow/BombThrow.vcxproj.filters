@@ -56,6 +56,9 @@
     <Filter Include="THEGAME\BomberThrower\Components">
       <UniqueIdentifier>{23a7dd5b-191c-4911-8cd8-02fed0daba9f}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Graphics\Core\Lights">
+      <UniqueIdentifier>{3df2582b-4621-4e14-842c-bb8ef926da72}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp" />
@@ -128,11 +131,23 @@
     <ClCompile Include="Transform.cpp">
       <Filter>Core\GameObjects</Filter>
     </ClCompile>
-    <ClCompile Include="DebugCameraFactory.cpp">
-      <Filter>THEGAME\Testing</Filter>
-    </ClCompile>
     <ClCompile Include="FreeFormController.cpp">
       <Filter>THEGAME\BomberThrower\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="Light.cpp">
+      <Filter>Graphics\Core\Lights</Filter>
+    </ClCompile>
+    <ClCompile Include="PointLight.cpp">
+      <Filter>Graphics\Core\Lights</Filter>
+    </ClCompile>
+    <ClCompile Include="PointLightShader.cpp">
+      <Filter>Graphics\Shaders</Filter>
+    </ClCompile>
+    <ClCompile Include="PointLightFactory.cpp">
+      <Filter>THEGAME\Testing\General</Filter>
+    </ClCompile>
+    <ClCompile Include="DebugCameraFactory.cpp">
+      <Filter>THEGAME\Testing\General</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -208,11 +223,23 @@
     <ClInclude Include="Transform.h">
       <Filter>Core\GameObjects</Filter>
     </ClInclude>
-    <ClInclude Include="DebugCameraFactory.h">
-      <Filter>THEGAME\Testing</Filter>
-    </ClInclude>
     <ClInclude Include="FreeFormController.h">
       <Filter>THEGAME\BomberThrower\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="Light.h">
+      <Filter>Graphics\Core\Lights</Filter>
+    </ClInclude>
+    <ClInclude Include="PointLight.h">
+      <Filter>Graphics\Core\Lights</Filter>
+    </ClInclude>
+    <ClInclude Include="PointLightShader.h">
+      <Filter>Graphics\Shaders</Filter>
+    </ClInclude>
+    <ClInclude Include="PointLightFactory.h">
+      <Filter>THEGAME\Testing\General</Filter>
+    </ClInclude>
+    <ClInclude Include="DebugCameraFactory.h">
+      <Filter>THEGAME\Testing\General</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -232,6 +259,12 @@
       <Filter>Shaders</Filter>
     </None>
     <None Include="AmbientLight.vs">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="PointLight.ps">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="PointLight.vs">
       <Filter>Shaders</Filter>
     </None>
   </ItemGroup>

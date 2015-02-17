@@ -2,6 +2,7 @@
 
 #include "CubeFactory.h"
 #include "DebugCameraFactory.h"
+#include "PointLightFactory.h"
 
 #include "GameObject.h"
 #include "GameObjectManager.h"
@@ -28,4 +29,9 @@ void daviDsTestFactory::Setup()
 
 	GameObjectManager::Instance().AddGameObject(cam);
 	GraphicsManager::Instance().SetCamera(cam->GetCamera());
+
+	PointLightFactory pointLightFactory;
+	GameObject* pointLight = pointLightFactory.Setup();
+
+	GameObjectManager::Instance().AddGameObject(pointLight);
 }

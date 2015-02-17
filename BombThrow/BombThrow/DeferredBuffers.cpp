@@ -63,6 +63,7 @@ DeferredBuffers::DeferredBuffers(ID3D11Device* device, int textureWidth, int tex
 		if(FAILED(result))
 		{
 			// Debug error message
+			int x = 0;
 		}
 	}
 

@@ -78,7 +78,7 @@ void Mesh::LoadObj(const char* fileName)
 				float vtcu, vtcv;
 				fileIn >> vtcu >> vtcv;		//Store next two types
 
-				D3DXVECTOR2 uv(vtcu, 1.0f-vtcv);
+				D3DXVECTOR2 uv(vtcu, vtcv);
 
 				uvThings.push_back(uv);	//Assuming right-hand coordinate system obj
 			}
@@ -87,7 +87,7 @@ void Mesh::LoadObj(const char* fileName)
 				float vnx, vny, vnz;
 				fileIn >> vnx >> vny >> vnz;	//Store next three types
 
-				D3DXVECTOR3 theNormal( vnx, vny, vnz * -1.0f );
+				D3DXVECTOR3 theNormal( vnx, vny, vnz * -1.0);
 
 				normals.push_back(theNormal);	//Invert the Z axis
 			}
