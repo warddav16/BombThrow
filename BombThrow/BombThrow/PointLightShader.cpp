@@ -151,6 +151,9 @@ void PointLightShader::SetShaderParameters(ID3D11DeviceContext* deviceContext, D
 	ID3D11ShaderResourceView* t1 = textures[1]->GetTexture();
 	deviceContext->PSSetShaderResources(1, 1, &t1);
 
+	ID3D11ShaderResourceView* t2 = textures[2]->GetTexture();
+	deviceContext->PSSetShaderResources(2, 1, &t2);
+
 	result = deviceContext->Map(m_lightBuffer, 0, D3D11_MAP_WRITE_DISCARD, 0, &mappedResource);
 	if (FAILED(result))
 	{

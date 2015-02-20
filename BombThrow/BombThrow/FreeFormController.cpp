@@ -48,13 +48,13 @@ void FreeFormController::Update(float delta)
 	if(InputManager::Instance().GetKey(KeyCode::LEFT_ARROW))
 	{
 		m_gameObject->GetTransform()->Rotate(
-			m_gameObject->GetTransform()->Up(), -ROT_SPEED * delta);
+			D3DXVECTOR3(0,1,0), -ROT_SPEED * delta);
 	}
 
 	if(InputManager::Instance().GetKey(KeyCode::RIGHT_ARROW))
 	{
 		m_gameObject->GetTransform()->Rotate(
-			m_gameObject->GetTransform()->Up(), ROT_SPEED * delta);
+			D3DXVECTOR3(0, 1, 0), ROT_SPEED * delta);
 	}
 
 	if(InputManager::Instance().GetKey(KeyCode::DOWN_ARROW))

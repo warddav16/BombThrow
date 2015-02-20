@@ -15,6 +15,7 @@ struct PixelOutputType
 {
     float4 color : SV_Target0;
     float4 normal : SV_Target1;
+	float4 pos : SV_Target2;
 };
 
 PixelOutputType DeferredPixelShader(PixelInputType input) : SV_TARGET
@@ -27,6 +28,8 @@ PixelOutputType DeferredPixelShader(PixelInputType input) : SV_TARGET
 	
     // Store the normal for output to the render target.
     output.normal = float4(input.normal, 1.0f);
+
+	output.pos = input.position;
 
     return output;
 }

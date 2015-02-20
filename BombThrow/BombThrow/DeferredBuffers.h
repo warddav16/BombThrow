@@ -8,7 +8,7 @@
 
 #include "Texture.h"
 
-const int BUFFER_COUNT = 2;
+const int BUFFER_COUNT = 3;
 
 class DeferredBuffers
 {

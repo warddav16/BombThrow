@@ -122,6 +122,12 @@ void DX11Manager::CloseWindow()
 		m_swapChain = 0;
 	}
 
+	if (m_additiveBlendState)
+	{
+		m_additiveBlendState->Release();
+		m_additiveBlendState = 0;
+	}
+
 	if(m_deferredBuffers)
 	{
 		delete m_deferredBuffers;
@@ -167,6 +173,7 @@ void DX11Manager::RenderFrame(list<GameObject*> gameObjects)
 
 	// Set the Z Buffer back to true for the next pass
 	this->SetZBuffer(true);
+	this->SetBlendStateNoBlend();
 }
 
 void DX11Manager::SwapBuffers()	
@@ -255,16 +262,6 @@ void DX11Manager::LightingPass()
 	D3DXMatrixLookAtLH(&viewMatrix, &position, &lookAt, &up);
 	///END_TEST///---------------------------------------------------------------------------
 	
-	// Lighting pass
-	vector<Light*>::iterator lightIter = GraphicsManager::Instance().GetLights()->begin();
-	for (; lightIter != GraphicsManager::Instance().GetLights()->end(); ++lightIter)
-	{
-		(*lightIter)->ApplyLight(m_deviceContext, world, viewMatrix, ortho, m_deferredBuffers->GetTextures());
-		// Render the geometry.
-		m_deviceContext->DrawIndexed(m_orthoWindow->GetIndexCount(), 0, 0);
-	}
-
-
 	// Ambient Pass
 	m_ambientLightShader->SetShaderParameters(m_deviceContext, world, viewMatrix, ortho, m_deferredBuffers->GetTextures());
 	// Set the vertex input layout.
@@ -280,6 +277,16 @@ void DX11Manager::LightingPass()
 
 	// Render the geometry.
 	m_deviceContext->DrawIndexed(m_orthoWindow->GetIndexCount(), 0, 0);
+	this->SetBlendStateAddidativeBlend();
+
+	// Lighting pass
+	vector<Light*>::iterator lightIter = GraphicsManager::Instance().GetLights()->begin();
+	for (; lightIter != GraphicsManager::Instance().GetLights()->end(); ++lightIter)
+	{
+		(*lightIter)->ApplyLight(m_deviceContext, world, viewMatrix, ortho, m_deferredBuffers->GetTextures());
+		// Render the geometry.
+		m_deviceContext->DrawIndexed(m_orthoWindow->GetIndexCount(), 0, 0);
+	}
 }
 
 void DX11Manager::SetZBuffer(bool toSet)
@@ -294,6 +301,35 @@ void DX11Manager::SetZBuffer(bool toSet)
 	}
 }
 
+void DX11Manager::SetBlendStateAddidativeBlend()
+{
+	float blendFactor[4];
+
+
+	// Setup the blend factor.
+	blendFactor[0] = 0.0f;
+	blendFactor[1] = 0.0f;
+	blendFactor[2] = 0.0f;
+	blendFactor[3] = 0.0f;
+
+	// Turn on the alpha blending.
+	m_deviceContext->OMSetBlendState(m_additiveBlendState, blendFactor, 0xffffffff);
+}
+
+void DX11Manager::SetBlendStateNoBlend()
+{
+	float blendFactor[4];
+
+
+	// Setup the blend factor.
+	blendFactor[0] = 0.0f;
+	blendFactor[1] = 0.0f;
+	blendFactor[2] = 0.0f;
+	blendFactor[3] = 0.0f;
+
+	// Turn on the alpha blending.
+	m_deviceContext->OMSetBlendState(m_noBlendBlendState, blendFactor, 0xffffffff);
+}
 
 ///////////////////
 /// Setup Stuff ///
@@ -318,6 +354,8 @@ bool DX11Manager::InitDx3d(void)
 	D3D11_DEPTH_STENCIL_VIEW_DESC depthStencilViewDesc;
 	D3D11_DEPTH_STENCIL_DESC depthDisabledStencilDesc;
 	D3D11_RASTERIZER_DESC rasterDesc;
+	D3D11_BLEND_DESC addidativeBlendDesc;
+	D3D11_BLEND_DESC noBlendDesc;
 	float fieldOfView, screenAspect;
 
 	// Create a DirectX graphics interface factory.
@@ -616,6 +654,53 @@ bool DX11Manager::InitDx3d(void)
 
 	// Now set the rasterizer state.
 	m_deviceContext->RSSetState(m_rasterState);
+
+
+	// Set up add blend state
+	addidativeBlendDesc.AlphaToCoverageEnable = false;
+	addidativeBlendDesc.IndependentBlendEnable = false;
+	addidativeBlendDesc.RenderTarget[0].BlendEnable = TRUE;
+	addidativeBlendDesc.RenderTarget[0].SrcBlend = D3D11_BLEND_ONE;
+	addidativeBlendDesc.RenderTarget[0].DestBlend = D3D11_BLEND_INV_SRC_ALPHA;
+	addidativeBlendDesc.RenderTarget[0].BlendOp = D3D11_BLEND_OP_ADD;
+	addidativeBlendDesc.RenderTarget[0].SrcBlendAlpha = D3D11_BLEND_ONE;
+	addidativeBlendDesc.RenderTarget[0].DestBlendAlpha = D3D11_BLEND_ZERO;
+	addidativeBlendDesc.RenderTarget[0].BlendOpAlpha = D3D11_BLEND_OP_ADD;
+	addidativeBlendDesc.RenderTarget[0].RenderTargetWriteMask = 0x0f;
+
+	result = m_device->CreateBlendState(&addidativeBlendDesc, &m_additiveBlendState);
+	if (FAILED(result))
+	{
+		return false;
+	}
+
+	float blendFactor[4];
+
+
+	// Setup the blend factor.
+	blendFactor[0] = 0.0f;
+	blendFactor[1] = 0.0f;
+	blendFactor[2] = 0.0f;
+	blendFactor[3] = 0.0f;;
+	
+
+	// Set up no add blend state
+	noBlendDesc.AlphaToCoverageEnable = false;
+	noBlendDesc.IndependentBlendEnable = false;
+	noBlendDesc.RenderTarget[0].BlendEnable = FALSE;
+	noBlendDesc.RenderTarget[0].SrcBlend = D3D11_BLEND_ONE;
+	noBlendDesc.RenderTarget[0].DestBlend = D3D11_BLEND_INV_SRC_ALPHA;
+	noBlendDesc.RenderTarget[0].BlendOp = D3D11_BLEND_OP_ADD;
+	noBlendDesc.RenderTarget[0].SrcBlendAlpha = D3D11_BLEND_ONE;
+	noBlendDesc.RenderTarget[0].DestBlendAlpha = D3D11_BLEND_ZERO;
+	noBlendDesc.RenderTarget[0].BlendOpAlpha = D3D11_BLEND_OP_ADD;
+	noBlendDesc.RenderTarget[0].RenderTargetWriteMask = 0x0f;
+
+	result = m_device->CreateBlendState(&noBlendDesc, &m_noBlendBlendState);
+	if (FAILED(result))
+	{
+		return false;
+	}
 
 	// Setup the viewport for rendering.
 	m_viewport.Width = (float)m_width;

@@ -29,6 +29,8 @@ private:
 	void RenderToTextures(std::list<GameObject*> gameObjects);
 	void LightingPass();
 	void SetZBuffer(bool toSet);
+	void SetBlendStateAddidativeBlend();
+	void SetBlendStateNoBlend();
 
 private:
 	bool m_vsync_enabled;
@@ -43,6 +45,8 @@ private:
 	ID3D11DepthStencilState* m_depthDisabledStencilState;
 	ID3D11DepthStencilView* m_depthStencilView;
 	ID3D11RasterizerState* m_rasterState;
+	ID3D11BlendState* m_additiveBlendState;
+	ID3D11BlendState* m_noBlendBlendState;
 	D3DXMATRIX m_projectionMatrix;
 	D3DXMATRIX m_worldMatrix;
 	D3DXMATRIX m_orthoMatrix;
