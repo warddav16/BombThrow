@@ -11,7 +11,8 @@ public:
 		D3DXVECTOR4 diffuseColor;
 		D3DXVECTOR4 specularColor;
 		float specularPower;
-		float padding[3];
+		float radius;
+		float padding[2];
 	};
 
 	PointLightShader(PointLight* pL);

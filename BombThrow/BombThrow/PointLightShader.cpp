@@ -169,6 +169,7 @@ void PointLightShader::SetShaderParameters(ID3D11DeviceContext* deviceContext, D
 	lightDataPtr->lightPos = D3DXVECTOR4(pos.x, pos.y, pos.z, 1);
 	lightDataPtr->specularColor = m_pointLight->GetSpecularColor();
 	lightDataPtr->specularPower = m_pointLight->GetSpecularPower();
+	lightDataPtr->radius = m_pointLight->GetRadius();
 
 	// Unlock the constant buffer.
 	deviceContext->Unmap(m_lightBuffer, 0);

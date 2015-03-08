@@ -2,6 +2,7 @@
 
 #include "PointLight.h"
 #include "Transform.h"
+#include "FreeFormController.h"
 
 PointLightFactory::PointLightFactory()
 {
@@ -18,9 +19,10 @@ GameObject* PointLightFactory::Setup()
 	lightObject->GetTransform()->SetPosition(D3DXVECTOR3(5, 5, -5));
 
 	PointLight* pointLight = new PointLight(lightObject); lightObject->SetLight(pointLight);
-	pointLight->SetDiffuse(D3DXVECTOR4(1, 1, 1, 0));
+	pointLight->SetDiffuse(D3DXVECTOR4(0, 0, 1, 0));
 	pointLight->SetSpecularColor(D3DXVECTOR4(1, 1, 1, 0));
 	pointLight->SetSpecularPower(1.f);
+	pointLight->SetRadius(5.f);
 
 	lightObject->SetLight(pointLight);
 

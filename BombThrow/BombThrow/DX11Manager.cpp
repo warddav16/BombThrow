@@ -62,7 +62,7 @@ void DX11Manager::StartWindow(HWND hwnd, int width, int height, bool fullscreen)
 
 	if(!InitDx3d())
 	{
-		MessageBox(hwnd, L"Fuckin crashed", L"Error", MB_OK);
+		MessageBox(hwnd, L"Crashed", L"Error", MB_OK);
 	}
 }
 

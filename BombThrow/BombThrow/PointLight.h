@@ -13,6 +13,8 @@ public:
 	void SetSpecularPower(float specPow) { m_specularPower = specPow; }
 	D3DXVECTOR4 GetSpecularColor() { return m_specularColor; }
 	void SetSpecularColor(D3DXVECTOR4 spec) { m_specularColor = spec; }
+	float GetRadius() { return m_radius; }
+	void SetRadius(float r) { m_radius = r; }
 
 private:
 	PointLight();
@@ -20,5 +22,6 @@ private:
 	D3DXVECTOR4 m_diffuseColor;
 	D3DXVECTOR4 m_specularColor;
 	float m_specularPower;
+	float m_radius;
 };
 
