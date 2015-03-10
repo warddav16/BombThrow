@@ -149,6 +149,9 @@
     <ClCompile Include="DebugCameraFactory.cpp">
       <Filter>THEGAME\Testing\General</Filter>
     </ClCompile>
+    <ClCompile Include="FloorFactory.cpp">
+      <Filter>THEGAME\Testing\General</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="IRendererManager.h">
@@ -239,6 +242,9 @@
       <Filter>THEGAME\Testing\General</Filter>
     </ClInclude>
     <ClInclude Include="DebugCameraFactory.h">
+      <Filter>THEGAME\Testing\General</Filter>
+    </ClInclude>
+    <ClInclude Include="FloorFactory.h">
       <Filter>THEGAME\Testing\General</Filter>
     </ClInclude>
   </ItemGroup>

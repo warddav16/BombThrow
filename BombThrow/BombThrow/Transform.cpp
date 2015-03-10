@@ -4,6 +4,7 @@
 Transform::Transform(GameObject* gO) : ComponentBase(gO)
 {
 	m_position = D3DXVECTOR3(.0f, 0.f, 0.f);
+	m_scale = D3DXVECTOR3(1.f, 1.f, 1.f);
 	D3DXQuaternionIdentity(&m_rotation);
 }
 
@@ -14,10 +15,11 @@ Transform::~Transform(void)
 
 D3DXMATRIX Transform::GetTransformMatrix()
 {
-	D3DXMATRIX rotationMatrix, translationMatrix;
+	D3DXMATRIX rotationMatrix, translationMatrix, scaleMatrix;
 	D3DXMatrixRotationQuaternion(&rotationMatrix, &m_rotation);
 	D3DXMatrixTranslation(&translationMatrix, m_position.x, m_position.y, m_position.z);
-	return rotationMatrix * translationMatrix;
+	D3DXMatrixScaling(&scaleMatrix, m_scale.x, m_scale.y, m_scale.z);
+	return rotationMatrix * translationMatrix * scaleMatrix;
 }
 
 D3DXVECTOR3 Transform::Up()

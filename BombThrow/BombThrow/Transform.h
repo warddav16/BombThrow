@@ -15,6 +15,7 @@ public:
 	D3DXQUATERNION GetRotation() { return m_rotation; }
 
 	void SetPosition(D3DXVECTOR3 vec) { m_position = D3DXVECTOR3(vec); }
+	void SetScale(D3DXVECTOR3 scale) { m_scale = D3DXVECTOR3(scale); }
 
 	void SetX(float x) { m_position.x = x; }
 	void SetY(float y) { m_position.y = y; }
@@ -31,5 +32,6 @@ private:
 	Transform() {}
 	D3DXVECTOR3 m_position;
 	D3DXQUATERNION m_rotation;
+	D3DXVECTOR3 m_scale;
 };
 

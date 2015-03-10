@@ -87,6 +87,7 @@
     <ClCompile Include="DeferredBuffers.cpp" />
     <ClCompile Include="DeferredShader.cpp" />
     <ClCompile Include="DX11Manager.cpp" />
+    <ClCompile Include="FloorFactory.cpp" />
     <ClCompile Include="FreeFormController.cpp" />
     <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="GameObjectManager.cpp" />
@@ -119,6 +120,7 @@
     <ClInclude Include="DeferredBuffers.h" />
     <ClInclude Include="DeferredShader.h" />
     <ClInclude Include="DX11Manager.h" />
+    <ClInclude Include="FloorFactory.h" />
     <ClInclude Include="FreeFormController.h" />
     <ClInclude Include="GameObject.h" />
     <ClInclude Include="GameObjectManager.h" />

@@ -3,6 +3,7 @@
 #include "CubeFactory.h"
 #include "DebugCameraFactory.h"
 #include "PointLightFactory.h"
+#include "FloorFactory.h"
 
 #include "GameObject.h"
 #include "GameObjectManager.h"
@@ -34,4 +35,8 @@ void daviDsTestFactory::Setup()
 	GameObject* pointLight = pointLightFactory.Setup();
 
 	GameObjectManager::Instance().AddGameObject(pointLight);
+
+	FloorFactory floorFactory;
+	GameObject* floor = floorFactory.Setup();
+	GameObjectManager::Instance().AddGameObject(floor);
 }
