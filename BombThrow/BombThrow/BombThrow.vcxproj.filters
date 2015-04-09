@@ -152,6 +152,9 @@
     <ClCompile Include="FloorFactory.cpp">
       <Filter>THEGAME\Testing\General</Filter>
     </ClCompile>
+    <ClCompile Include="DirectionalLight.cpp">
+      <Filter>Graphics\Core\Lights</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="IRendererManager.h">
@@ -246,6 +249,9 @@
     </ClInclude>
     <ClInclude Include="FloorFactory.h">
       <Filter>THEGAME\Testing\General</Filter>
+    </ClInclude>
+    <ClInclude Include="DirectionalLight.h">
+      <Filter>Graphics\Core\Lights</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

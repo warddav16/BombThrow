@@ -86,6 +86,7 @@
     <ClCompile Include="DebugCameraFactory.cpp" />
     <ClCompile Include="DeferredBuffers.cpp" />
     <ClCompile Include="DeferredShader.cpp" />
+    <ClCompile Include="DirectionalLight.cpp" />
     <ClCompile Include="DX11Manager.cpp" />
     <ClCompile Include="FloorFactory.cpp" />
     <ClCompile Include="FreeFormController.cpp" />
@@ -119,6 +120,7 @@
     <ClInclude Include="DebugCameraFactory.h" />
     <ClInclude Include="DeferredBuffers.h" />
     <ClInclude Include="DeferredShader.h" />
+    <ClInclude Include="DirectionalLight.h" />
     <ClInclude Include="DX11Manager.h" />
     <ClInclude Include="FloorFactory.h" />
     <ClInclude Include="FreeFormController.h" />

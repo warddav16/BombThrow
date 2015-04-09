@@ -7,8 +7,6 @@ public:
 	PointLight(GameObject* gO);
 	virtual ~PointLight();
 
-	D3DXVECTOR4 GetDiffuse() { return m_diffuseColor; }
-	void SetDiffuse(D3DXVECTOR4 diff) { m_diffuseColor = diff; }
 	float GetSpecularPower() { return m_specularPower; }
 	void SetSpecularPower(float specPow) { m_specularPower = specPow; }
 	D3DXVECTOR4 GetSpecularColor() { return m_specularColor; }
@@ -18,8 +16,6 @@ public:
 
 private:
 	PointLight();
-
-	D3DXVECTOR4 m_diffuseColor;
 	D3DXVECTOR4 m_specularColor;
 	float m_specularPower;
 	float m_radius;

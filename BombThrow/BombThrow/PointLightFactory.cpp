@@ -21,7 +21,7 @@ GameObject* PointLightFactory::Setup()
 	PointLight* pointLight = new PointLight(lightObject); lightObject->SetLight(pointLight);
 	pointLight->SetDiffuse(D3DXVECTOR4(1, 1, 1, 0));
 	pointLight->SetSpecularColor(D3DXVECTOR4(1, 1, 1, 0));
-	pointLight->SetSpecularPower(1.f);
+	pointLight->SetSpecularPower(.8f);
 	pointLight->SetRadius(5.f);
 
 	lightObject->SetLight(pointLight);

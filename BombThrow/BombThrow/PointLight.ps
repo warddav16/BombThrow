@@ -27,14 +27,14 @@ float4 PointLightPixelShader(PixelInputType input) : SV_TARGET
 	float4 normal = normalTexture.Sample(SampleTypePoint, input.tex);
 	float4 pos = positionTexture.Sample(SampleTypePoint, input.tex);
 	float4 L = pos - lightPos;
-
-	float dist = max(length(L) - radius, 0);
-	float attenuation = 1 / ((dist / radius + 1) * (dist / radius + 1));
-	attenuation = max((attenuation - radius) / (1 - radius), 0);           
+	float4 eye = -(normalize(pos));
 	
 	float4 lightDir = normalize(L);                                                                        
-	float angleNormal = clamp(dot(normalize(normal), lightDir), 0, 1);
+	float nDotL = clamp(dot(normalize(normal), lightDir), 0, 1);
+	float4 lightReflect = normalize(reflect(lightDir, normal));
+	float specFactor = dot(eye, lightReflect);
+	specFactor = max(pow(specFactor, specularPower), 0);
+	float4 specColor = specularColor * specularPower;
 
-	//return saturate(diffuseColor * saturate(dot(normal, lightPos))) * textDiff;
-	return textDiff * angleNormal * attenuation * diffuseColor;
+	return textDiff * (nDotL * diffuseColor + specColor);
 }
