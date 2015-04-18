@@ -47,9 +47,12 @@ private:
 	ID3D11RasterizerState* m_rasterState;
 	ID3D11BlendState* m_additiveBlendState;
 	ID3D11BlendState* m_noBlendBlendState;
+
 	D3DXMATRIX m_projectionMatrix;
 	D3DXMATRIX m_worldMatrix;
 	D3DXMATRIX m_orthoMatrix;
+	D3DXMATRIX m_invProjMatrix;
+
 	D3D11_VIEWPORT m_viewport;
 
 	DeferredBuffers* m_deferredBuffers;

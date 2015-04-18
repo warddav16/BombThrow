@@ -17,7 +17,6 @@ D3DXMATRIX Camera::GetViewMatrix()
 {
 	D3DXMATRIX viewMatrix;
 	D3DXVECTOR3 up, position, lookAt;
-	float yaw, pitch, roll;
 	D3DXMATRIX rotationMatrix;
 
 
@@ -40,6 +39,5 @@ D3DXMATRIX Camera::GetViewMatrix()
 
 	// Finally create the view matrix from the three updated vectors.
 	D3DXMatrixLookAtLH(&viewMatrix, &position, &lookAt, &up);
-
 	return viewMatrix;
 }

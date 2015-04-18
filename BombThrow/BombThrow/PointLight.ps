@@ -4,6 +4,7 @@ cbuffer LightBufferType
 	float4 lightPos;
 	float4 diffuseColor;
 	float4 specularColor;
+	float4 cameraPos;
 	float specularPower;
 	float radius;
 	float2 padding;
@@ -26,15 +27,19 @@ float4 PointLightPixelShader(PixelInputType input) : SV_TARGET
 	float4 textDiff = colorTexture.Sample(SampleTypePoint, input.tex);
 	float4 normal = normalTexture.Sample(SampleTypePoint, input.tex);
 	float4 pos = positionTexture.Sample(SampleTypePoint, input.tex);
-	float4 L = pos - lightPos;
-	float4 eye = -(normalize(pos));
-	
+
+	float4 L = lightPos - pos;
 	float4 lightDir = normalize(L);                                                                        
 	float nDotL = clamp(dot(normalize(normal), lightDir), 0, 1);
-	float4 lightReflect = normalize(reflect(lightDir, normal));
-	float specFactor = dot(eye, lightReflect);
-	specFactor = max(pow(specFactor, specularPower), 0);
-	float4 specColor = specularColor * specularPower;
+	float attenuation = saturate(1.0f - length(L) / radius);
 
-	return textDiff * (nDotL * diffuseColor + specColor);
+	float4 finalSpecColor = float4(0,0,0,0);
+	float4 reflectionVec = normalize(reflect(-lightDir, normal));
+	float4 directionToCamera = normalize(cameraPos - pos);
+	float specLight = max(pow(dot(reflectionVec, directionToCamera), specularPower), 0);
+	if(specLight > 0) {
+		finalSpecColor = specularColor * specLight;
+	}
+
+	return textDiff * attenuation * ((nDotL * diffuseColor)  + finalSpecColor);
 }

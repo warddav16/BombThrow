@@ -110,12 +110,11 @@ void PointLightShader::LoadShaderParameters(ID3D11Device* device, ID3D10Blob* ve
 
 
 void PointLightShader::SetShaderParameters(ID3D11DeviceContext* deviceContext, D3DXMATRIX worldMatrix, D3DXMATRIX viewMatrix,
-	D3DXMATRIX projectionMatrix, Texture** textures)
+	D3DXMATRIX projectionMatrix, D3DXMATRIX invProj, Texture** textures)
 {
 	HRESULT result;
 	D3D11_MAPPED_SUBRESOURCE mappedResource;
 	unsigned int bufferNumber;
-	MatrixBufferType* dataPtr;
 
 
 	// Transpose the matrices to prepare them for the shader.
@@ -130,7 +129,7 @@ void PointLightShader::SetShaderParameters(ID3D11DeviceContext* deviceContext, D
 	}
 
 	// Get a pointer to the data in the constant buffer.
-	dataPtr = (MatrixBufferType*)mappedResource.pData;
+	MatrixBufferType* dataPtr = (MatrixBufferType*)mappedResource.pData;
 
 	// Copy the matrices into the constant buffer.
 	dataPtr->world = worldMatrix;
@@ -144,6 +143,9 @@ void PointLightShader::SetShaderParameters(ID3D11DeviceContext* deviceContext, D
 	// Now set the constant buffer in the vertex shader with the updated values.
 	deviceContext->VSSetConstantBuffers(0, 1, &m_matrixBuffer);
 
+
+
+
 	// Set shader texture resource in the pixel shader.
 	ID3D11ShaderResourceView* t = textures[0]->GetTexture();
 	deviceContext->PSSetShaderResources(0, 1, &t);
@@ -153,6 +155,8 @@ void PointLightShader::SetShaderParameters(ID3D11DeviceContext* deviceContext, D
 
 	ID3D11ShaderResourceView* t2 = textures[2]->GetTexture();
 	deviceContext->PSSetShaderResources(2, 1, &t2);
+
+
 
 	result = deviceContext->Map(m_lightBuffer, 0, D3D11_MAP_WRITE_DISCARD, 0, &mappedResource);
 	if (FAILED(result))
@@ -170,6 +174,9 @@ void PointLightShader::SetShaderParameters(ID3D11DeviceContext* deviceContext, D
 	lightDataPtr->specularColor = m_pointLight->GetSpecularColor();
 	lightDataPtr->specularPower = m_pointLight->GetSpecularPower();
 	lightDataPtr->radius = m_pointLight->GetRadius();
+
+	pos = GraphicsManager::Instance().GetCamera()->getGameObject()->GetTransform()->GetPosition();
+	lightDataPtr->cameraPos = D3DXVECTOR4(pos.x, pos.y, pos.z, 1); // TODO: Put in its own buffer
 
 	// Unlock the constant buffer.
 	deviceContext->Unmap(m_lightBuffer, 0);

@@ -14,7 +14,7 @@ public:
 	Renderer(GameObject* gO);
 	virtual ~Renderer(void);
 
-	virtual void Render(ID3D11DeviceContext* deviceContext, D3DXMATRIX world, D3DXMATRIX view, D3DXMATRIX projection)=0;
+	virtual void Render(ID3D11DeviceContext* deviceContext, D3DXMATRIX world, D3DXMATRIX view, D3DXMATRIX projection, D3DXMATRIX invProj) = 0;
 
 protected:
 	Renderer(void);

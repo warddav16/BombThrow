@@ -63,7 +63,6 @@ DeferredBuffers::DeferredBuffers(ID3D11Device* device, int textureWidth, int tex
 		if(FAILED(result))
 		{
 			// Debug error message
-			int x = 0;
 		}
 	}
 
@@ -148,10 +147,6 @@ DeferredBuffers::~DeferredBuffers(void)
 
 	for(int i=0; i<BUFFER_COUNT; i++)
 	{
-		if(m_textures[i])
-		{
-			delete m_textures[i];
-		}
 
 		if(m_renderTargetViewArray[i])
 		{
@@ -164,6 +159,8 @@ DeferredBuffers::~DeferredBuffers(void)
 			m_renderTargetTextureArray[i]->Release();
 			m_renderTargetTextureArray[i] = 0;
 		}
+
+		delete m_textures[i];
 	}
 }
 

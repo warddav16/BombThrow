@@ -14,10 +14,10 @@ Light::~Light()
 }
 
 void Light::ApplyLight(ID3D11DeviceContext* deviceContext, D3DXMATRIX worldMatrix, D3DXMATRIX viewMatrix,
-			D3DXMATRIX projectionMatrix, Texture** textures)
+	D3DXMATRIX projectionMatrix, D3DXMATRIX invProj, Texture** textures)
 {
 	// Ambient Pass
-	m_lightShader->SetShaderParameters(deviceContext, worldMatrix, viewMatrix, projectionMatrix, textures);
+	m_lightShader->SetShaderParameters(deviceContext, worldMatrix, viewMatrix, projectionMatrix, invProj, textures);
 	// Set the vertex input layout.
 	deviceContext->IASetInputLayout(m_lightShader->GetInputLayout());
 

@@ -14,7 +14,7 @@ public:
 	MeshRenderer(GameObject* gO);
 	~MeshRenderer(void);
 
-	virtual void Render(ID3D11DeviceContext* deviceContext, D3DXMATRIX world, D3DXMATRIX view, D3DXMATRIX projection);
+	virtual void Render(ID3D11DeviceContext* deviceContext, D3DXMATRIX world, D3DXMATRIX view, D3DXMATRIX projection, D3DXMATRIX invProj);
 
 public:
 	Mesh* GetMesh() { return m_mesh; }

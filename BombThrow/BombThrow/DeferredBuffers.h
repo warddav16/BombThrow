@@ -19,6 +19,7 @@ public:
 	void SetRenderTargets(ID3D11DeviceContext* deviceContext);
 	void ClearRenderTargets(ID3D11DeviceContext* deviceContext);
 	Texture** GetTextures() { return m_textures; }
+	ID3D11DepthStencilView* GetDepthBuffer() { return m_depthStencilView; }
 
 
 private:

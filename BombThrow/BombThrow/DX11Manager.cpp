@@ -196,6 +196,7 @@ void DX11Manager::RenderToTextures(list<GameObject*> gameObjects)
 	D3DXMATRIX proj = m_projectionMatrix;
 
 	D3DXMATRIX viewMatrix = GraphicsManager::Instance().GetCamera()->GetViewMatrix();
+	D3DMATRIX invProj = m_projectionMatrix;
 
 	// Set the render buffers to be the render target.
 	m_deferredBuffers->SetRenderTargets(m_deviceContext);
@@ -210,7 +211,7 @@ void DX11Manager::RenderToTextures(list<GameObject*> gameObjects)
 	{
 		if((*iter)->GetRenderer() != NULL)
 		{
-			(*iter)->GetRenderer()->Render(m_deviceContext, world, viewMatrix, proj);
+			(*iter)->GetRenderer()->Render(m_deviceContext, world, viewMatrix, proj, invProj);
 		}
 	}
 	m_deviceContext->OMSetRenderTargets(1, &m_renderTargetView, m_depthStencilView);
@@ -261,9 +262,16 @@ void DX11Manager::LightingPass()
 	// Finally create the view matrix from the three updated vectors.
 	D3DXMatrixLookAtLH(&viewMatrix, &position, &lookAt, &up);
 	///END_TEST///---------------------------------------------------------------------------
+
+	D3DXMATRIX invProj;
+	//D3DXMATRIX view = GraphicsManager::Instance().GetCamera()->GetViewMatrix();
+	//D3DXMatrixMultiply(&invProj, &m_projectionMatrix, &viewMatrix);
+	//D3DXMatrixMultiply(&invProj, &m_orthoMatrix, &view);
+	D3DXMatrixInverse(&invProj, NULL, &m_projectionMatrix);
+	
 	
 	// Ambient Pass
-	m_ambientLightShader->SetShaderParameters(m_deviceContext, world, viewMatrix, ortho, m_deferredBuffers->GetTextures());
+	m_ambientLightShader->SetShaderParameters(m_deviceContext, world, viewMatrix, ortho, invProj, m_deferredBuffers->GetTextures());
 	// Set the vertex input layout.
 	m_deviceContext->IASetInputLayout(m_ambientLightShader->GetInputLayout());
 
@@ -279,11 +287,12 @@ void DX11Manager::LightingPass()
 	m_deviceContext->DrawIndexed(m_orthoWindow->GetIndexCount(), 0, 0);
 	this->SetBlendStateAddidativeBlend();
 
+
 	// Lighting pass
 	vector<Light*>::iterator lightIter = GraphicsManager::Instance().GetLights()->begin();
 	for (; lightIter != GraphicsManager::Instance().GetLights()->end(); ++lightIter)
 	{
-		(*lightIter)->ApplyLight(m_deviceContext, world, viewMatrix, ortho, m_deferredBuffers->GetTextures());
+		(*lightIter)->ApplyLight(m_deviceContext, world, viewMatrix, ortho, invProj, m_deferredBuffers->GetTextures());
 		// Render the geometry.
 		m_deviceContext->DrawIndexed(m_orthoWindow->GetIndexCount(), 0, 0);
 	}
@@ -719,6 +728,9 @@ bool DX11Manager::InitDx3d(void)
 
 	// Create the projection matrix for 3D rendering.
 	D3DXMatrixPerspectiveFovLH(&m_projectionMatrix, fieldOfView, screenAspect, m_screenNear, m_screenDepth);
+
+	float determinant = 0;
+	D3DXMatrixInverse(&m_invProjMatrix, &determinant, &m_projectionMatrix);
 
 	// Initialize the world matrix to the identity matrix.
 	D3DXMatrixIdentity(&m_worldMatrix);
