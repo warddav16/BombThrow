@@ -35,7 +35,7 @@ MeshRenderer::~MeshRenderer(void)
 	m_textures.clear();
 }
 
-void MeshRenderer::Render(ID3D11DeviceContext* deviceContext, D3DXMATRIX world, D3DXMATRIX view, D3DXMATRIX projection, D3DXMATRIX invProj)
+void MeshRenderer::Render(ID3D11DeviceContext* deviceContext, D3DXMATRIX world, D3DXMATRIX view, D3DXMATRIX projection)
 {
 	unsigned int stride;
 	unsigned int offset;
@@ -58,9 +58,9 @@ void MeshRenderer::Render(ID3D11DeviceContext* deviceContext, D3DXMATRIX world, 
 	deviceContext->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 
 	if(m_textures.size() > 0)
-		m_shader->SetShaderParameters(deviceContext, world, view, projection, invProj, &m_textures[0]); // Converts to texture array
+		m_shader->SetShaderParameters(deviceContext, world, view, projection, &m_textures[0]); // Converts to texture array
 	else
-		m_shader->SetShaderParameters(deviceContext, world, view, projection, invProj, NULL);
+		m_shader->SetShaderParameters(deviceContext, world, view, projection, NULL);
 
 	// Set the vertex input layout.
 	deviceContext->IASetInputLayout(m_shader->GetInputLayout());

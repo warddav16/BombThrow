@@ -51,7 +51,6 @@ private:
 	D3DXMATRIX m_projectionMatrix;
 	D3DXMATRIX m_worldMatrix;
 	D3DXMATRIX m_orthoMatrix;
-	D3DXMATRIX m_invProjMatrix;
 
 	D3D11_VIEWPORT m_viewport;
 

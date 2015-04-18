@@ -8,7 +8,7 @@ public:
 	virtual ~Light();
 
 	void ApplyLight(ID3D11DeviceContext* deviceContext, D3DXMATRIX worldMatrix, D3DXMATRIX viewMatrix,
-		D3DXMATRIX projectionMatrix, D3DXMATRIX invProj,  Texture** textures);
+		D3DXMATRIX projectionMatrix, Texture** textures);
 
 	D3DXVECTOR4 GetDiffuse() { return m_diffuseColor; }
 	void SetDiffuse(D3DXVECTOR4 diff) { m_diffuseColor = diff; }

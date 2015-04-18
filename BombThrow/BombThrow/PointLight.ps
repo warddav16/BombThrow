@@ -28,18 +28,23 @@ float4 PointLightPixelShader(PixelInputType input) : SV_TARGET
 	float4 normal = normalTexture.Sample(SampleTypePoint, input.tex);
 	float4 pos = positionTexture.Sample(SampleTypePoint, input.tex);
 
+	float4 color = float4(0,0,0,0);
+	float4 specular = float4(0,0,0,0);
 	float4 L = lightPos - pos;
 	float4 lightDir = normalize(L);                                                                        
-	float nDotL = clamp(dot(normalize(normal), lightDir), 0, 1);
+	float nDotL = saturate(dot(normalize(normal), lightDir));
 	float attenuation = saturate(1.0f - length(L) / radius);
 
-	float4 finalSpecColor = float4(0,0,0,0);
-	float4 reflectionVec = normalize(reflect(-lightDir, normal));
-	float4 directionToCamera = normalize(cameraPos - pos);
-	float specLight = max(pow(dot(reflectionVec, directionToCamera), specularPower), 0);
-	if(specLight > 0) {
-		finalSpecColor = specularColor * specLight;
+	if(nDotL > 0)
+	{
+		color += diffuseColor * nDotL;
+		color = saturate(color);
+		float4 reflection = normalize(2 * nDotL * normal - lightDir);
+		float4 viewDirection = normalize(cameraPos - pos);
+		specular = saturate(specularColor *  pow(saturate(dot(reflection, viewDirection)), specularPower));
 	}
 
-	return textDiff * attenuation * ((nDotL * diffuseColor)  + finalSpecColor);
+	color = color * textDiff;
+	color = saturate(color + specular);
+	return color;
 }
